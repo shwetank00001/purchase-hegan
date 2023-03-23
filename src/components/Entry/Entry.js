@@ -59,6 +59,7 @@ const Entry = () => {
        // getting all firm details from data base
    const getFirmData = async () => {
      let result = await fetch("http://localhost:5000/api/user/getAllFirmDetails", {
+      
        headers: {
         'Content-Type': 'application/json'
        },
@@ -173,93 +174,93 @@ const Entry = () => {
 
 
  // Firm table component
-  function FirmTable() {
-    function showData() {
-      // props.generateData();
-    }
+  // function FirmTable() {
+  //   function showData() {
+  //     // props.generateData();
+  //   }
 
-    return (
-      <div onClick={showData} className="product">
-        <div className="quantity-box-top">
-          <table id="customers">
-            <tr>
-              <th>S.No.</th>
-              <th>Product Name</th>
-              <th>Unit Pack</th>
-              <th>Quantity</th>
-              <th>Free</th>
-              <th>Trade Rate</th>
-              <th>Disc%</th>
-              <th>Amt</th>
-            </tr>
+  //   return (
+  //     <div onClick={showData} className="product">
+  //       <div className="quantity-box-top">
+  //         <table id="customers">
+  //           <tr>
+  //             <th>S.No.</th>
+  //             <th>Product Name</th>
+  //             <th>Unit Pack</th>
+  //             <th>Quantity</th>
+  //             <th>Free</th>
+  //             <th>Trade Rate</th>
+  //             <th>Disc%</th>
+  //             <th>Amt</th>
+  //           </tr>
 
-            <tr onClick={showData}>
-              <td>
-                <input type="text" value={"1"} />
-              </td>
-              <td>
-                <select htmlFor="firmName" onChange={generateData}>
-                  Product Name
-                  <br />
-                  {productData.map((item, index) => (
-                    <option
-                      placeholder="First Name"
-                      onChange={(e) => setGeneratedData(e.target.value)}
-                    >
-                      {item.productName}
-                    </option>
-                  ))}
-                </select>
+  //           <tr onClick={showData}>
+  //             <td>
+  //               <input type="text" value={"1"} />
+  //             </td>
+  //             <td>
+  //               <select htmlFor="firmName" onChange={generateData}>
+  //                 Product Name
+  //                 <br />
+  //                 {productData.map((item, index) => (
+  //                   <option
+  //                     placeholder="First Name"
+  //                     onChange={(e) => setGeneratedData(e.target.value)}
+  //                   >
+  //                     {item.productName}
+  //                   </option>
+  //                 ))}
+  //               </select>
                 
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={unitPack}
-                  onChange={(e) => setUnitPack(e.target.value)}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={Quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={free}
-                  onChange={(e) => setFree(e.target.value)}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={tradeRate}
-                  onChange={(e) => setTradeRate(e.target.value)}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={discount}
-                  onChange={(e) => setDiscount(e.target.value)}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                />
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-    );
-  }
+  //             </td>
+  //             <td>
+  //               <input
+  //                 type="text"
+  //                 value={unitPack}
+  //                 onChange={(e) => setUnitPack(e.target.value)}
+  //               />
+  //             </td>
+  //             <td>
+  //               <input
+  //                 type="text"
+  //                 value={Quantity}
+  //                 onChange={(e) => setQuantity(e.target.value)}
+  //               />
+  //             </td>
+  //             <td>
+  //               <input
+  //                 type="text"
+  //                 value={free}
+  //                 onChange={(e) => setFree(e.target.value)}
+  //               />
+  //             </td>
+  //             <td>
+  //               <input
+  //                 type="text"
+  //                 value={tradeRate}
+  //                 onChange={(e) => setTradeRate(e.target.value)}
+  //               />
+  //             </td>
+  //             <td>
+  //               <input
+  //                 type="text"
+  //                 value={discount}
+  //                 onChange={(e) => setDiscount(e.target.value)}
+  //               />
+  //             </td>
+  //             <td>
+  //               <input
+  //                 type="text"
+  //                 value={amount}
+  //                 onChange={(e) => setAmount(e.target.value)}
+  //               />
+  //             </td>
+  //           </tr>
+  //         </table>
+  //       </div>
+  //     </div>
+  //   );
+  // }
   // COMMENTS TABLE
   function CommentsTable(props) {
     return (
@@ -364,7 +365,85 @@ const Entry = () => {
           </form>
 
           <div className="quantity-box">
-            <FirmTable/>
+          <div className="product">
+        <div className="quantity-box-top">
+          <table id="customers">
+            <tr>
+              <th>S.No.</th>
+              <th>Product Name</th>
+              <th>Unit Pack</th>
+              <th>Quantity</th>
+              <th>Free</th>
+              <th>Trade Rate</th>
+              <th>Disc%</th>
+              <th>Amt</th>
+            </tr>
+
+            <tr>
+              <td>
+                <input type="text" value={"1"} />
+              </td>
+              <td>
+                <select htmlFor="firmName" onChange={generateData}>
+                  Product Name
+                  <br />
+                  {productData.map((item, index) => (
+                    <option
+                      placeholder="First Name"
+                      onChange={(e) => setGeneratedData(e.target.value)}
+                    >
+                      {item.productName}
+                    </option>
+                  ))}
+                </select>
+                
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={unitPack}
+                  onChange={(e) => setUnitPack(e.target.value)}
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={Quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={free}
+                  onChange={(e) => setFree(e.target.value)}
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={tradeRate}
+                  onChange={(e) => setTradeRate(e.target.value)}
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={discount}
+                  onChange={(e) => setDiscount(e.target.value)}
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                />
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
             <div className="quantity-box-bottom">
               <div className="qty-comments">
                 <div className="box">
