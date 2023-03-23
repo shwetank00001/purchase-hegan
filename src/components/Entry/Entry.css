@@ -1,0 +1,252 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #F5F5F5;
+  
+  }
+  .app{
+    display: flex;
+  }
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+  }
+  
+  .main-div{
+    padding: 10px;
+  }
+  
+  .div-header{
+    width: 100%;
+    height: 20px;
+    color: white;
+    background: #0A9AE3;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+  }
+  
+  
+  
+  .first-half{
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+    
+  }
+  
+  .top-two{
+    display: grid;
+    gap: 5px;
+    width: 75%;
+    
+    
+  }
+  
+  .input-box{
+    width: 100%;
+    height: 90px;
+    border: 5px solid #0A9AE3;
+    border-radius: 10px;
+    background: #FFFFFF;
+    display: flex;
+    overflow:  auto ;
+    font-weight: 700;
+    font-size: large;
+  }
+  
+  input {
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    height: 25px;
+    margin-top: 5px;
+  
+  }
+  .input-box-name{
+    width: 50px;
+  }
+  
+  .input-box-name, .input-box-date, .input-box-type, .input-box-invoice, .input-box-region{
+    margin-top: 10px;
+    margin-left: 50px;
+    width: 20%;
+  }
+  
+  
+  /* 
+                    2ND HALF OF THE PAGE 
+  */
+  
+  .quantity-box{
+    width: 100%;
+    height: 470px;
+    border: 5px solid #0A9AE3;
+    border-radius: 10px;
+    background: #FFFFFF;
+  }
+  
+  .product{
+    overflow: auto;
+    height: 220px;
+  }
+  
+  .quantity-box-bottom{
+    display: flex;
+    margin-top: 30px;
+  }
+  
+  .qty-comments{
+    width: 60%;
+    height: 192px;
+    border: 5px solid #0A9AE3;
+    border-radius: 10px;
+    margin-left: 10px;
+  }
+  
+  .box{
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+  .qty-details{
+    height: 192px;
+    width: 40%;
+    padding: 10px;
+    overflow: auto;
+  }
+  
+  .contact-box{
+    width: 350px;
+    background: #FFFFFF;
+    border: 5px solid #0A9AE3;
+    border-radius: 10px;
+    
+  }
+  
+  .contact-box-input{
+    font-weight: 700;
+    padding: 10px;
+  }
+  
+  .contact-box-input > input{
+    width: 250px;
+  }
+  
+  .bottom-half{
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+  }
+  
+  .total-box{
+    width: 75%;
+    border: 5px solid #0A9AE3;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .total-empty{
+    margin-top: 5px;
+    width: 900px;
+    height: 220px;
+    border: 5px solid #000000;
+    border-radius: 10px;
+    margin-left: 10px;
+    padding: 10px;
+  }
+  
+  .total-empty-buttons{
+    display: flex;
+    float: right;  
+    gap: 10px; 
+    
+  }
+  .total-empty-buttons > button{
+    cursor: pointer;
+    background-color: #0A9AE3;
+    color: white;
+    font-size: large;
+    border: 3px solid #000000;
+    border-radius: 10px;
+  
+  }
+  
+  .total-values-button{
+    margin-top: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-right: 5px;
+    margin-top: 20px;
+  }
+  
+  .total-values-button > button {
+    cursor: pointer;
+    background-color: #0A9AE3;
+    color: white;
+    font-size: large;
+    border: 3px solid #000000;
+    border-radius: 10px;
+  
+  }
+  
+  .blank-box{
+    width: 350px;
+    height: 263px;
+    left: 1146px;
+    top: 840px;
+  
+    background: #FFFFFF;
+    border: 5px solid #0A9AE3;
+    border-radius: 10px;
+  
+  }
+
+   /* ////////////////// table */
+  
+   #customers {
+    border-collapse: collapse;
+    width: 100%;
+    overflow: auto;
+  
+  }
+  
+  #customers td, #customers th {
+    padding: 8px;
+    
+  }
+  
+    #customers input {
+      width: 90px;
+      height: 20px;
+      background-color:#36323237 ;
+      border: 0px solid;
+      text-align: center;
+    }
+  
+  #customers tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #customers tr:hover {background-color: #d9d9d9;}
+  
+  #customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #0A9AE3;
+    color: white;
+    
+  }
+  #customers tr > td {
+    text-align: center;
+    cursor: pointer;
+    
+  }
+  
+  

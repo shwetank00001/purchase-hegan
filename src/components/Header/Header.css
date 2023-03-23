@@ -1,0 +1,21 @@
+
+
+/* 
+---------------------------------------------- sidebar------------------ */
+
+.sidebar-button{
+    padding: 10px;
+    background-color: #0f0f0f;
+    cursor: pointer;
+    border-radius: 10px;
+    color: white;
+  }
+  
+  .sidebar-button:hover{
+    background-color: #fffafa;
+    transition-duration: 2ms;
+    color: rgb(0, 0, 0);
+  }
+  
+  
+ 
