@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
-import Select from 'react-select';
+import React, { useState, useEffect ,useRef } from "react";
 import "./Entry.css";
 const Entry = () => {
-   
+  const nameRef = useRef();
    //getting all firm details from the data base 
    const [firmData, setFirmData] = useState([]);
      // console.log(firmData, "data is here ")
@@ -10,12 +9,15 @@ const Entry = () => {
 
   const [firm, setFirm] = React.useState("");
    console.log(firm,"setting from select")
-
+       
+  
+  
   const [region, setRegion] = React.useState("");
   const [type, setType] = React.useState("");
   const [date, setDate] = React.useState("");
   const [invoice, setInvoice] = React.useState("");
 
+    
   const [address, setAddress] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [mobile, setMobile] = React.useState("");
@@ -24,6 +26,17 @@ const Entry = () => {
   const [DL2, setDL2] = React.useState("");
   const [fssai, setFssai] = React.useState("");
 
+
+    //all the final details of purchase entry
+      const [subtotal,setSubtotal] = useState("");
+      const [disAmt,setDisAmt] =useState("");
+      const [totalTax,setTotalTax] =useState("");
+      const [goodReturn,setGoodReturn]=useState("");
+      const [cnVoucher,setCnVoucher] = useState("");
+      const [grandTotal,setGrandTotal]=useState("");
+         
+
+      
   //purchase product entry
   const [unitPack,setUnitPack] = useState("");
   const [Quantity,setQuantity] = useState("");
@@ -31,6 +44,7 @@ const Entry = () => {
   const [tradeRate,setTradeRate] =useState("");
   const [discount,setDiscount] =useState("");
   const [amount,setAmount] =useState(""); 
+  
 
   const [batch, setBatch] = React.useState("");
   const [Expiry, setExpiry] = React.useState("");
@@ -38,11 +52,13 @@ const Entry = () => {
   const [HSN, setHSN] = React.useState("");
   const [netRate, setNetRate] = React.useState("");
   const [CGST, setCGST] = React.useState("");
-
+ 
+ 
 
     //alll product data for displaying product in the input field
   const [productData,setProductData] =useState([]);
-    
+  // storing product name in generatedData variable
+  const [generatedData, setGeneratedData] = React.useState("");
   const [product,setProductName]=useState("");
   const [category,setCategory]  =useState("");
   const [brand , setBrand] =useState("");
@@ -50,12 +66,56 @@ const Entry = () => {
   const [unitpacking,setUnitPacking] =useState("");
   const [hsn_sac_code,setHsn_sac_Code] =useState(""); 
           
-     
-  
+   let [ProductEntries,setProductEntries]=useState([]);
+   let [firmEntries,setfirmEntries] =useState([]);
+
   useEffect(() => {
     getFirmData();
     getProductData();
 },[]);
+ 
+
+     
+  function arrayOfObject(){
+   
+    let firmObject={
+      "firmName" : firm,  
+       "region"  : region,
+       "type"    : type,
+       "data"    : date,
+       "invoice" : invoice,
+       "subtotal": subtotal,
+       "disAmt"  : disAmt,
+       "totalTax": totalTax,
+       "goodReturn":goodReturn,
+       "cnVoucher" :cnVoucher,
+       "grandTotal":grandTotal
+  }
+
+
+ let ProductObj={
+  "ProductName":generatedData,
+  "unitPack" :unitPack,
+  "Quantity" :Quantity,
+  "free" : free,
+  "tradeRate":tradeRate,
+  "discount" :discount,
+  "amount"   :amount,
+  "batch"  : batch,
+  "Expiry" : Expiry,
+  "mrp"  : mrp,
+  "HSN" : HSN,
+  "netRate" : netRate,
+  "CGST" : CGST
+ }
+
+ ProductEntries.push(ProductObj)
+ console.log(ProductEntries,ProductEntries.length)
+
+}
+
+
+
        // getting all firm details from data base
    const getFirmData = async () => {
      let result = await fetch("http://localhost:5000/api/user/getAllFirmDetails", {
@@ -125,6 +185,7 @@ const Entry = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
+
     console.log(firm, region, type, date, invoice);
     if (firm === "SHWETANK") {
       setRegion("INDIA");
@@ -149,15 +210,14 @@ const Entry = () => {
 
   // --------------------------------------------------- showing data in comments ---------------------
 
-  const [generatedData, setGeneratedData] = React.useState("");
+  // const [generatedData, setGeneratedData] = React.useState("");
 
   // setting for output of product list 
   function generateData(event) {
-   // console.log("genereted data funciton is running",event.target.value)
     const newData = event.target.value;
     setGeneratedData(newData);
      for(let i = 0; i<productData.length; i++){
-          //console.log("changing", typeof productData, productData[0].productName, event.target.value)
+         
             if(productData[i].productName === event.target.value){
               setProductName(productData[i].productName);
               setCategory(productData[i].category);
@@ -165,102 +225,10 @@ const Entry = () => {
               setDescription(productData[i].description);
               setUnitPacking(productData[i].unitPacking);
               setHsn_sac_Code(productData[i].hsn_sac_code);
-              
-
-            }
-      }  
-          
+          }
+      }    
   }
 
-
- // Firm table component
-  // function FirmTable() {
-  //   function showData() {
-  //     // props.generateData();
-  //   }
-
-  //   return (
-  //     <div onClick={showData} className="product">
-  //       <div className="quantity-box-top">
-  //         <table id="customers">
-  //           <tr>
-  //             <th>S.No.</th>
-  //             <th>Product Name</th>
-  //             <th>Unit Pack</th>
-  //             <th>Quantity</th>
-  //             <th>Free</th>
-  //             <th>Trade Rate</th>
-  //             <th>Disc%</th>
-  //             <th>Amt</th>
-  //           </tr>
-
-  //           <tr onClick={showData}>
-  //             <td>
-  //               <input type="text" value={"1"} />
-  //             </td>
-  //             <td>
-  //               <select htmlFor="firmName" onChange={generateData}>
-  //                 Product Name
-  //                 <br />
-  //                 {productData.map((item, index) => (
-  //                   <option
-  //                     placeholder="First Name"
-  //                     onChange={(e) => setGeneratedData(e.target.value)}
-  //                   >
-  //                     {item.productName}
-  //                   </option>
-  //                 ))}
-  //               </select>
-                
-  //             </td>
-  //             <td>
-  //               <input
-  //                 type="text"
-  //                 value={unitPack}
-  //                 onChange={(e) => setUnitPack(e.target.value)}
-  //               />
-  //             </td>
-  //             <td>
-  //               <input
-  //                 type="text"
-  //                 value={Quantity}
-  //                 onChange={(e) => setQuantity(e.target.value)}
-  //               />
-  //             </td>
-  //             <td>
-  //               <input
-  //                 type="text"
-  //                 value={free}
-  //                 onChange={(e) => setFree(e.target.value)}
-  //               />
-  //             </td>
-  //             <td>
-  //               <input
-  //                 type="text"
-  //                 value={tradeRate}
-  //                 onChange={(e) => setTradeRate(e.target.value)}
-  //               />
-  //             </td>
-  //             <td>
-  //               <input
-  //                 type="text"
-  //                 value={discount}
-  //                 onChange={(e) => setDiscount(e.target.value)}
-  //               />
-  //             </td>
-  //             <td>
-  //               <input
-  //                 type="text"
-  //                 value={amount}
-  //                 onChange={(e) => setAmount(e.target.value)}
-  //               />
-  //             </td>
-  //           </tr>
-  //         </table>
-  //       </div>
-  //     </div>
-  //   );
-  // }
   // COMMENTS TABLE
   function CommentsTable(props) {
     return (
@@ -291,9 +259,12 @@ const Entry = () => {
         <div className="top-two">
           <form onSubmit={handleSubmit} className="input-box">
             <div className="input-box-name">
-        
-              <select htmlFor="firmName"    onChange={handleChange}>Firm Name
-                  
+            <labeL> Firm Name</labeL>
+              <select 
+              htmlFor="firmName"    
+              onChange={handleChange}
+              className='FirmName'>
+              Firm Name
               <br />
               {
                 firmData.map((item,index) => (
@@ -310,17 +281,12 @@ const Entry = () => {
               }
               </select>
 
-    
-         
-    
-             
             </div>
-
             <div className="input-box-region">
               <label htmlFor="region">Region</label>
               <br />
               <input
-                id="region"
+                id="Region"
                 placeholder="Region.."
                 type="name"
                 value={region}
@@ -362,7 +328,9 @@ const Entry = () => {
               />
             </div>
             <button></button>
-          </form>
+        </form>
+
+  {/* here product list entries getting product and dialing entry for products */}
 
           <div className="quantity-box">
           <div className="product">
@@ -384,7 +352,10 @@ const Entry = () => {
                 <input type="text" value={"1"} />
               </td>
               <td>
-                <select htmlFor="firmName" onChange={generateData}>
+                <select htmlFor="firmName" 
+                 onChange={generateData}
+                 className="ProductName"
+                 >
                   Product Name
                   <br />
                   {productData.map((item, index) => (
@@ -444,83 +415,129 @@ const Entry = () => {
           </table>
         </div>
       </div>
+       
+       {/* batch number and all the other information which is used by the user while purchasing the product */}
+
             <div className="quantity-box-bottom">
               <div className="qty-comments">
                 <div className="box">
-                  <div>
-                    <label htmlFor="batch">Batch No.</label>
-                    <br />
-                   
+                 
+
+                  <div className="label-for-second">
+                  <div className="BatchNo">
+                  <label htmlFor="batch">Batch No.</label>
                     <input
-                      id="batch"
+                      id="BatchNo"
                       value={batch}
                       type="text"
                       onChange={(e) => setBatch(e.target.value)}
                     />
-                  </div>
-                  <div>
+                    </div>
+
+                  <div className="Expiry">
                     <label htmlFor="Expiry">Expiry</label>
-                    <br />
                     <input
                       id="Expiry"
                       value={Expiry}
                       type="text"
                       onChange={(e) => setExpiry(e.target.value)}
                     />
-                  </div>
-                  <div>
+                    </div>
+        
+                   <div className="MRP">
                     <label htmlFor="mrp">MRP</label>
-                    <br />
-                    
-                    <input
-                      id="mrp"
+                     <input
+                      id="MRP"
                       value={mrp}
                       type="text"
                       onChange={(e) => setMrp(e.target.value)}
                     />
-                  </div>
-                  <div>
+                    </div>
+                    <div className="HSN">
                     <label htmlFor="hsn">HSN/SAC</label>
-                    <br />
-                    <input
-                      id="hsn"
-                    
+                     <input
+                      id="HSN"
                       value={HSN}
                       type="text"
                       onChange={(e) => setHSN(e.target.value)}
                     />
-                   
-                  </div>
-                  <div>
+                    </div>
+
+                   </div>
+                 
+
+                    <div className="label-for-four">
+
+                    <div className="NetRate">
                     <label htmlFor="Net Rate">Net Rate</label>
-                    <br />
+                    <input
+                      id="NetRateInput"
+                      value={netRate}
+                      type="text"
+                      onChange={(e) => setNetRate(e.target.value)}
+                    />
+                    </div>
+
+                       <label className="TAX">TAX</label>
+                     <div className="CGST">
+                     <label htmlFor="CGST">CGST</label>
+                      <input
+                      id="CGST"
+                      value={CGST}
+                      type="text"
+                      onChange={(e) => setCGST(e.target.value)}
+                    />
+                     </div>
+
+                     <div className="SGST">
+                     <label htmlFor="Net Rate">SGST</label>
+                     <input
+                      id="Net Rate"
+                      className="NetRate"
+                      value={netRate}
+                      type="text"
+                      onChange={(e) => setNetRate(e.target.value)}
+                    />
+                    </div>
+
+                    <div className="IGST">
+                    <label htmlFor="Net Rate">IGST</label>
+                      <input
+                      id="Net Rate"
+                      value={netRate}
+                      type="text"
+                      onChange={(e) => setNetRate(e.target.value)}
+                    />
+                    </div>
+
+                    <div className="CESS">
+                    <label htmlFor="Net Rate">CESS</label>
                     <input
                       id="Net Rate"
                       value={netRate}
                       type="text"
                       onChange={(e) => setNetRate(e.target.value)}
                     />
+                    </div>
+                  
+                  
+                   
                   </div>
-                  <div>
-                    <label htmlFor="CGST">CGST</label>
-                    <br />
-                    <input
-                      id="CGST"
-                      value={CGST}
-                      type="text"
-                      onChange={(e) => setCGST(e.target.value)}
-                    />
-                  </div>
+                   <button className="submit-firm" onClick={arrayOfObject}>
+                 Add Product
+                  </button>
+                 
                 </div>
+               
               </div>
-
+              
               <div className="qty-details">
                 {button && (
                   <table id="customers">
                     <tr>
                       <th>Date </th>
                       <th>Invoice No.</th>
-                      <th>Unit Pack</th>
+                      <th>Unit </th>
                     </tr>
                     <tbody>{generateTableRows()}</tbody>
                   </table>
@@ -529,6 +546,9 @@ const Entry = () => {
             </div>
           </div>
         </div>
+
+    {/* here all firm name genereator detials which we are pre filling from the data which we are getting from the backend firm list     */}
+      
         <div className="contact-box">
           <div className="contact-box-input">
             <label htmlFor="add">Address</label>
@@ -619,7 +639,32 @@ const Entry = () => {
             </div>
           </div>
         </div>
-        <div className="blank-box"></div>
+        <div className="blank-box">
+        <input 
+         value = {subtotal}
+         onChange={(e) => setSubtotal(e.target.value)}
+      /> 
+      <input
+         value = {disAmt}
+         onChange={(e) => setDisAmt(e.target.value)}
+      /> 
+      <input 
+         value = {totalTax}
+         onChange={(e) => setTotalTax(e.target.value)}
+      /> 
+      <input
+          value = {goodReturn}
+          onChange={(e) => setGoodReturn(e.target.value)}
+       /> 
+      <input 
+          value = {cnVoucher}
+          onChange={(e) => setCnVoucher(e.target.value)}
+      /> 
+      <input 
+          value = {grandTotal}
+          onChange={(e) => setGrandTotal(e.target.value)}
+      />
+        </div>
       </div>
     </div>
   );

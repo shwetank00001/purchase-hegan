@@ -102,17 +102,82 @@ body {
   }
   
   .qty-comments{
-    width: 60%;
-    height: 192px;
+    width:fit-content;
+    padding: 1rem;
+    height: fit-content;
     border: 5px solid #0A9AE3;
     border-radius: 10px;
     margin-left: 10px;
   }
-  
-  .box{
-    display: grid;
-    grid-template-columns: 50% 50%;
+   .box > div > div > label{
+     font-size: larger;
+     font-family: Arial, Helvetica, sans-serif;
+   }
+
+   .box > div > div  > div > div > label{
+    font-size: larger;
+    font-family: Arial, Helvetica, sans-serif;
   }
+
+  .label-for-second{
+    align-items: center;
+     display: flex;
+     justify-content: left;
+     gap: 1rem;
+  }
+
+  .label-for-second > div {
+    display: grid;
+  }
+  .label-for-second > div >input{
+    height: 30px;
+    width: 60px;
+  }
+
+  .label-for-four{
+    align-items: center;
+    display: flex;
+    justify-content: left;
+    gap: 1rem;
+  }
+.label-for-four > div >input{
+    height: 30px;
+    width: 50px;
+  }
+
+.label-for-four >div{
+  display: grid;
+}
+.TAX{
+  margin-top: 1.4rem;
+  font-size: larger;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#BatchNo{
+  height: 30px;
+  width: 90px;
+}
+
+#Expiry{
+    height: 30px;
+    width: 90px;
+  }
+#MRP{
+  height: 30px;
+  width: 80px;
+}
+#HSN{
+  height: 30px;
+  width: 90px;
+}
+
+#NetRateInput{
+    height: 30px;
+    width: 80px;
+}  
+
+
   .qty-details{
     height: 192px;
     width: 40%;
@@ -152,9 +217,9 @@ body {
   }
   
   .total-empty{
-    margin-top: 5px;
+    margin-top: 12px;
     width: 900px;
-    height: 220px;
+    height: 240px;
     border: 5px solid #000000;
     border-radius: 10px;
     margin-left: 10px;
@@ -181,13 +246,15 @@ body {
     margin-top: 0px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-right: 5px;
+    gap: 12.6px;
+    margin-right: 6px;
+    margin-left: 6px;
     margin-top: 20px;
   }
   
   .total-values-button > button {
     cursor: pointer;
+    margin-top: .2rem;
     background-color: #0A9AE3;
     color: white;
     font-size: large;
@@ -201,11 +268,22 @@ body {
     height: 263px;
     left: 1146px;
     top: 840px;
-  
+    align-items:center;
+    display:grid;
+    justify-content:left;
     background: #FFFFFF;
     border: 5px solid #0A9AE3;
     border-radius: 10px;
-  
+    padding-top: .6rem;
+    padding-bottom: 1rem;
+  }
+  .blank-box > input{
+    margin-left: 5px;
+    width: 150px;
+    height:20px;
+    background: #D9D9D9;
+    border: 5px solid #000000;
+    border-radius: 10px;
   }
 
    /* ////////////////// table */
@@ -248,4 +326,33 @@ body {
     
   }
   
-  
+   .submit-firm{
+    background-color:#0A9AE3;
+    margin-left: 8rem;
+    margin-top: 1rem;
+    height: 30px;
+    width: 150px;
+    font-size: large;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    color: white;
+  } 
+
+  .ProductName{
+    margin-top: 4px;
+    height: 23px;
+    width: 200px;
+    background-color: rgb(206, 202, 206);
+    font: white;
+    cursor: pointer;
+    border-radius: 7px;
+  }
+  .FirmName{
+    margin-top: .4rem;
+    height: 28px;
+    width: 200px;
+    background-color: rgb(255, 255, 255);
+    font: white;
+    cursor: pointer;
+    border-radius: 7px;
+  }
