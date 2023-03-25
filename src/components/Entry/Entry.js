@@ -37,6 +37,7 @@ const Entry = () => {
          
 
       
+      
   //purchase product entry
   const [unitPack,setUnitPack] = useState("");
   const [Quantity,setQuantity] = useState("");
@@ -51,9 +52,16 @@ const Entry = () => {
   const [mrp, setMrp] = React.useState("");
   const [HSN, setHSN] = React.useState("");
   const [netRate, setNetRate] = React.useState("");
-  const [CGST, setCGST] = React.useState("");
+  const [IGST,setIGST] = useState("");
+  const [CGST, setCGST]= useState("");
+  const [SGST,setSGST] = useState(""); 
+  const [CESS,setCESS] = useState("");
  
- 
+   // here we are dividing value's of IGST into sgst and cgst
+ function vikram(IGST){
+  setCGST(IGST/2);
+  setSGST(IGST/2);
+ }
 
     //alll product data for displaying product in the input field
   const [productData,setProductData] =useState([]);
@@ -68,6 +76,85 @@ const Entry = () => {
           
    let [ProductEntries,setProductEntries]=useState([]);
    let [firmEntries,setfirmEntries] =useState([]);
+
+   const [inputDate,setInputDate] = useState("");
+   const [inputInvoiceNo,setInputInvoiceNo] = useState("");
+   const [inputAmt,setInputAmt] = useState("");
+    console.log(inputDate, inputInvoiceNo,inputAmt)
+
+      // formula one of the calculation's 
+      function FormulaOne(){
+        if(free){
+          for(let i = 0; i<free.length; i++){
+              if(free[i] === "+"){
+               
+               let x = '';
+               let y = '';
+               for(let i = 0; i<free.length; i++){
+                  if(free[i] != "+"){
+                     x+=free[i]
+                  }else{
+                  break;
+                  }
+               }
+               
+               for(let i = 0; i<free.length; i++){
+                  if(free[i] != "+"){
+                     y+=free[i]
+                  }else{
+                   y=''
+                  }
+               }
+               x = parseInt(x)
+               y = parseInt(y)
+               
+                let freeT = (y*100)/(x+y)
+                freeT = freeT.toFixed(2);
+                let data = Quantity*tradeRate;
+                let data2  = data*freeT/100
+                let data3 = data-data2
+                let dis = discount/100*data3
+                let AMt = data3 -dis;
+                let vik = IGST+CESS
+                let v = AMt*vik/100;
+                let final = (v+AMt).toFixed(2);
+                console.log(final)
+                setAmount(final)
+                return
+              }
+            }
+         }
+
+       let data = Quantity*tradeRate;
+       let dis = discount/100*data
+       let AMt = data -dis
+         if(IGST && CESS){
+            let vik = parseInt(IGST) + parseInt(CESS);
+            let v = AMt*vik/100
+            let final = (v+AMt).toFixed(2);
+            setAmount(final)
+            return
+         }
+         else if(IGST){
+            let vik = parseInt(IGST);
+            let v = AMt*vik/100
+            let final = (v+AMt).toFixed(2);
+            setAmount(final)
+            return
+         }
+         else if(CESS){
+            let vik = parseInt(CESS);
+            let v = AMt*vik/100
+            let final = (v+AMt).toFixed(2);
+            setAmount(final)
+            return
+         }
+         else if(!CESS || !IGST){
+         let final = (AMt).toFixed(2);
+         setAmount(final)
+         return
+         }
+     }
 
   useEffect(() => {
     getFirmData();
@@ -196,7 +283,7 @@ const Entry = () => {
       setMrp(100);
       setHSN(193414);
       setNetRate(`${HSN * mrp}`);
-      setCGST(9213);
+      setCGST(3);
 
       setButton(function (item) {
         return !item;
@@ -254,7 +341,7 @@ const Entry = () => {
       <div className="div-header">
         <h3>PURCHASE ENTRY</h3>
       </div>
-
+    
       <div className="first-half">
         <div className="top-two">
           <form onSubmit={handleSubmit} className="input-box">
@@ -380,45 +467,119 @@ const Entry = () => {
                 <input
                   type="text"
                   value={Quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
+                  onChange={(e) => {setQuantity(e.target.value); FormulaOne() }}
                 />
               </td>
               <td>
                 <input
                   type="text"
                   value={free}
-                  onChange={(e) => setFree(e.target.value)}
+                  onChange={(e) => {setFree(e.target.value); FormulaOne() }}
                 />
               </td>
               <td>
                 <input
                   type="text"
                   value={tradeRate}
-                  onChange={(e) => setTradeRate(e.target.value)}
+                  onChange={(e) => { setTradeRate(e.target.value); FormulaOne()}}
                 />
               </td>
               <td>
                 <input
                   type="text"
                   value={discount}
-                  onChange={(e) => setDiscount(e.target.value)}
+                  onChange={(e) => {setDiscount(e.target.value); FormulaOne() }}
                 />
               </td>
               <td>
                 <input
                   type="text"
                   value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
                 />
               </td>
             </tr>
           </table>
+          {/* <div> */}
+               {/* {
+                  
+                  ProductEntries.map((item,index) => (
+                    <div> 
+                           console.log(item,index, ProductEntries[index])
+                         <tr>
+              <td>
+                <input type="text" value={"1"} />
+              </td>
+              <td>
+                <input 
+                 value={generatedData}
+                 className="ProductName"
+                 onChange={(e) => setGeneratedData(e.target.value)}
+                 />
+                 
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={unitPack}
+                  onChange={(e) => setUnitPack(e.target.value)}
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={Quantity}
+                  onChange={(e) => {setQuantity(e.target.value); FormulaOne() }}
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={free}
+                  onChange={(e) => {setFree(e.target.value); FormulaOne() }}
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={tradeRate}
+                  onChange={(e) => { setTradeRate(e.target.value); FormulaOne()}}
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={discount}
+                  onChange={(e) => {setDiscount(e.target.value); FormulaOne() }}
+                />
+              </td>
+              <td>
+                <input
+                  type="text"
+                  value={amount}
+                />
+              </td>
+            </tr>
+           
+                   )) </div>
+                 }
+                  </div> */}
+        
+          {/* </table> */}
+
+
+        
         </div>
+       
+
+        
+
       </div>
+     
        
        {/* batch number and all the other information which is used by the user while purchasing the product */}
 
             <div className="quantity-box-bottom">
+            
               <div className="qty-comments">
                 <div className="box">
                  
@@ -467,18 +628,21 @@ const Entry = () => {
                  
 
                     <div className="label-for-four">
-
                     <div className="NetRate">
-                    <label htmlFor="Net Rate">Net Rate</label>
-                    <input
-                      id="NetRateInput"
-                      value={netRate}
-                      type="text"
-                      onChange={(e) => setNetRate(e.target.value)}
-                    />
+                   
                     </div>
 
                        <label className="TAX">TAX</label>
+                       <div className="IGST">
+                    <label htmlFor="Net Rate">IGST</label>
+                      <input
+                      
+                      value={IGST}
+                      type="text"
+                      onChange={(e) => { setIGST(e.target.value);  vikram(e.target.value); FormulaOne() }  }
+                    />
+                    </div>
+
                      <div className="CGST">
                      <label htmlFor="CGST">CGST</label>
                       <input
@@ -488,25 +652,15 @@ const Entry = () => {
                       onChange={(e) => setCGST(e.target.value)}
                     />
                      </div>
-
+                      
                      <div className="SGST">
                      <label htmlFor="Net Rate">SGST</label>
                      <input
                       id="Net Rate"
                       className="NetRate"
-                      value={netRate}
+                      value={SGST}
                       type="text"
-                      onChange={(e) => setNetRate(e.target.value)}
-                    />
-                    </div>
-
-                    <div className="IGST">
-                    <label htmlFor="Net Rate">IGST</label>
-                      <input
-                      id="Net Rate"
-                      value={netRate}
-                      type="text"
-                      onChange={(e) => setNetRate(e.target.value)}
+                      onChange={(e) => setSGST(e.target.value)}
                     />
                     </div>
 
@@ -514,23 +668,49 @@ const Entry = () => {
                     <label htmlFor="Net Rate">CESS</label>
                     <input
                       id="Net Rate"
-                      value={netRate}
+                      value={CESS}
                       type="text"
-                      onChange={(e) => setNetRate(e.target.value)}
+                      onChange={(e) => { setCESS(e.target.value); FormulaOne()}}
                     />
                     </div>
                   
                   
                    
                   </div>
-                   <button className="submit-firm" onClick={arrayOfObject}>
+                   <button className="submit-firm" onClick={ () => { arrayOfObject(); FormulaOne()   }}>
                  Add Product
                   </button>
                  
                 </div>
-               
               </div>
-              
+{/* date invoice no amout  */}
+
+              <div className="Date-Invoice-Amt-Main">
+                 <div className="Date-Invoice-Amt">
+                   <label >Date</label>
+                   <label>Invoice No.</label>
+                   <label>Amt</label>
+                 </div>
+
+                 <div className="input-div">
+                 <input
+                   value={inputDate}
+                   onChange={(e)=> setInputDate(e.target.value)}
+                 />
+
+                 <input
+                   value={inputInvoiceNo}
+                   onChange={(e)=> setInputInvoiceNo(e.target.value)}                 
+                 />
+
+                 <input
+                   value={inputAmt}
+                   onChange={(e)=> setInputAmt(e.target.value)}                  
+                 />
+                 </div>
+             </div>
+
+    {/* qty details  */}
               <div className="qty-details">
                 {button && (
                   <table id="customers">
