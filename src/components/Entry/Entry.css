@@ -22,7 +22,6 @@ body {
   }
   
   .div-header{
-    width: 100%;
     height: 20px;
     color: white;
     background: #0A9AE3;
@@ -31,6 +30,8 @@ body {
     justify-content: center;
     align-items: center;
     padding: 2px;
+    width: 91.7rem
+
   }
   
   
@@ -183,21 +184,29 @@ body {
     overflow: auto;
   }
   
+  .qty-details-header > th{
+    position: sticky;
+    top: 0;
+  }
+  
   .contact-box{
-    width: 350px;
+    width: 300px;
     background: #FFFFFF;
     border: 5px solid #0A9AE3;
     border-radius: 10px;
-    
   }
   
   .contact-box-input{
     font-weight: 700;
     padding: 10px;
   }
+  .contact-box-input > label{
+    margin-left: 40px;
+  }
   
   .contact-box-input > input{
-    width: 250px;
+    width: 200px;
+    margin-left: 40px;
   }
   
   .bottom-half{
@@ -262,13 +271,12 @@ body {
   }
   
   .blank-box{
-    width: 350px;
+    width: 300px;
     height: 263px;
     left: 1146px;
     top: 840px;
-    align-items:center;
     display:grid;
-    justify-content:left;
+    justify-content:center;
     background: #FFFFFF;
     border: 5px solid #0A9AE3;
     border-radius: 10px;
@@ -277,11 +285,11 @@ body {
   }
   .blank-box > input{
     margin-left: 5px;
-    width: 150px;
+    width: 200px;
     height:20px;
     background: #D9D9D9;
-    border: 5px solid #000000;
-    border-radius: 10px;
+    border: 2px solid #000000;
+    border-radius: 4px;
   }
 
    /* ////////////////// table */

@@ -1,10 +1,11 @@
 import React, { useState, useEffect ,useRef } from "react";
 import "./Entry.css";
 const Entry = () => {
-  const nameRef = useRef();
    //getting all firm details from the data base 
    const [firmData, setFirmData] = useState([]);
      // console.log(firmData, "data is here ")
+
+     
         
 
   const [firm, setFirm] = React.useState("");
@@ -162,6 +163,21 @@ const Entry = () => {
 },[]);
  
 
+function addNewrow(){
+  console.log('edited')
+
+
+}
+
+const ele  = productData.map(function(item){
+  return(
+    
+        <tr>
+        </tr>
+    
+  )
+})
+
      
   function arrayOfObject(){
    
@@ -251,21 +267,21 @@ const Entry = () => {
 
   // ------------------------------- this is printing 10 data```````````````````````````
 
-  const [button, setButton] = React.useState(false);
+  const [button, setButton] = React.useState(true);
 
-  const generateTableRows = () => {
-    const rows = [];
-    for (let i = 1; i <= 20; i++) {
-      rows.push(
-        <tr key={i}>
-          <td>Date</td>
-          <td>Shwetank</td>
-          <td>1</td>
-        </tr>
-      );
-    }
-    return rows;
-  };
+  // const generateTableRows = () => {
+  //   ProductEntries.map(function(item,index){
+  //     return(
+  //     <div>
+  //        <tr key={index}>
+  //                 <td>{item.productName} </td>
+  //                 <td>{item.productName}</td>
+  //                 <td>{item.productName}</td>
+  //         </tr>
+  //     </div>)
+  //   })
+  //   console.log('asujhifhsfoisf')
+  // };
 
 
 
@@ -414,77 +430,76 @@ const Entry = () => {
                 onChange={(e) => setInvoice(e.target.value)}
               />
             </div>
-            <button></button>
         </form>
 
   {/* here product list entries getting product and dialing entry for products */}
 
           <div className="quantity-box">
-          <div className="product">
-        <div className="quantity-box-top">
-          <table id="customers">
-            <tr>
-              <th>S.No.</th>
-              <th>Product Name</th>
-              <th>Unit Pack</th>
-              <th>Quantity</th>
-              <th>Free</th>
-              <th>Trade Rate</th>
-              <th>Disc%</th>
-              <th>Amt</th>
-            </tr>
+            <div className="product">
+              <div className="quantity-box-top">
+                <table id="customers">
+                  <tr>
+                    <th>S.No.</th>
+                    <th>Product Name</th>
+                    <th>Unit Pack</th>
+                    <th>Quantity</th>
+                    <th>Free</th>
+                    <th>Trade Rate</th>
+                    <th>Disc%</th>
+                    <th>Amt</th>
+                  </tr>
 
-            <tr>
-              <td>
-                <input type="text" value={"1"} />
-              </td>
-              <td>
-                <select htmlFor="firmName" 
-                 onChange={generateData}
-                 className="ProductName"
-                 >
-                  Product Name
-                  <br />
-                  {productData.map((item, index) => (
-                    <option
-                      placeholder="First Name"
-                      onChange={(e) => setGeneratedData(e.target.value)}
-                    >
-                      {item.productName}
-                    </option>
-                  ))}
-                </select>
-                
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={unitPack}
-                  onChange={(e) => setUnitPack(e.target.value)}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={Quantity}
-                  onChange={(e) => {setQuantity(e.target.value); FormulaOne() }}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={free}
-                  onChange={(e) => {setFree(e.target.value); FormulaOne() }}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={tradeRate}
-                  onChange={(e) => { setTradeRate(e.target.value); FormulaOne()}}
-                />
-              </td>
-              <td>
+                  <tr>
+                    <td>
+                      <input type="text" value={"1"} />
+                    </td>
+                    <td>
+                      <select htmlFor="firmName" 
+                      onChange={generateData}
+                      className="ProductName"
+                      >
+                        Product Name
+                        <br />
+                        {productData.map((item, index) => (
+                          <option
+                            placeholder="First Name"
+                            onChange={(e) => setGeneratedData(e.target.value)}
+                          >
+                            {item.productName}
+                          </option>
+                        ))}
+                        </select>
+                        
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          value={unitPack}
+                          onChange={(e) => setUnitPack(e.target.value)}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          value={Quantity}
+                          onChange={(e) => {setQuantity(e.target.value); FormulaOne() }}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          value={free}
+                          onChange={(e) => {setFree(e.target.value); FormulaOne() }}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          value={tradeRate}
+                          onChange={(e) => { setTradeRate(e.target.value); FormulaOne()}}
+                        />
+                      </td>
+                      <td>
                 <input
                   type="text"
                   value={discount}
@@ -495,79 +510,37 @@ const Entry = () => {
                 <input
                   type="text"
                   value={amount}
-                />
+                /> 
               </td>
             </tr>
-          </table>
-          {/* <div> */}
-               {/* {
+
+          
+            {
+              ProductEntries.map(function(item, index){
+                return(
                   
-                  ProductEntries.map((item,index) => (
-                    <div> 
-                           console.log(item,index, ProductEntries[index])
-                         <tr>
-              <td>
-                <input type="text" value={"1"} />
-              </td>
-              <td>
-                <input 
-                 value={generatedData}
-                 className="ProductName"
-                 onChange={(e) => setGeneratedData(e.target.value)}
-                 />
-                 
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={unitPack}
-                  onChange={(e) => setUnitPack(e.target.value)}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={Quantity}
-                  onChange={(e) => {setQuantity(e.target.value); FormulaOne() }}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={free}
-                  onChange={(e) => {setFree(e.target.value); FormulaOne() }}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={tradeRate}
-                  onChange={(e) => { setTradeRate(e.target.value); FormulaOne()}}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={discount}
-                  onChange={(e) => {setDiscount(e.target.value); FormulaOne() }}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={amount}
-                />
-              </td>
-            </tr>
+                    <tr>  
+                          <td>{index +1}</td>
+                          <td>{item.ProductName}</td> 
+                          <td>{item.unitPack}</td> 
+                          <td>{item.Quantity}</td> 
+                          <td>{item.free}</td> 
+                          <td>{item.tradeRate}</td> 
+                          <td>{item.discount}</td> 
+                          <td>{item.amount}</td> 
+
+                    </tr>
+                  
+
+                  
+                )
+              })
+            }
            
-                   )) </div>
-                 }
-                  </div> */}
-        
-          {/* </table> */}
 
+           
+          </table>
 
-        
         </div>
        
 
@@ -677,7 +650,7 @@ const Entry = () => {
                   
                    
                   </div>
-                   <button className="submit-firm" onClick={ () => { arrayOfObject(); FormulaOne()   }}>
+                   <button className="submit-firm" onClick={ () => { arrayOfObject(); FormulaOne();addNewrow()  }}>
                  Add Product
                   </button>
                  
@@ -685,7 +658,7 @@ const Entry = () => {
               </div>
 {/* date invoice no amout  */}
 
-              <div className="Date-Invoice-Amt-Main">
+              {/* <div className="Date-Invoice-Amt-Main">
                  <div className="Date-Invoice-Amt">
                    <label >Date</label>
                    <label>Invoice No.</label>
@@ -708,18 +681,35 @@ const Entry = () => {
                    onChange={(e)=> setInputAmt(e.target.value)}                  
                  />
                  </div>
-             </div>
+             </div> */}
 
     {/* qty details  */}
               <div className="qty-details">
                 {button && (
                   <table id="customers">
-                    <tr>
+                    <tr className="qty-detail-header">
                       <th>Date </th>
                       <th>Invoice No.</th>
                       <th>Unit </th>
                     </tr>
-                    <tbody>{generateTableRows()}</tbody>
+                    <tbody>
+                      { productData.length > 1 ?
+                        productData.map(function(item,index){
+                      console.log(item)
+                      return(
+                              
+                                <tr key={item.id}>
+                                          <td>{item.productName} </td>
+                                          <td>{item.brand}</td>
+                                          <td>{item.category}</td>
+                                </tr>
+
+                                
+                              
+                              )
+                              }) :"No entries"
+                            }
+                    </tbody>
                   </table>
                 )}
               </div>
