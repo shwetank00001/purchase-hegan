@@ -5,6 +5,10 @@ const Entry = () => {
    const [firmData, setFirmData] = useState([]);
      // console.log(firmData, "data is here ")
 
+ // this is for M F G checkbox
+     const [m ,setM] = React.useState('')
+     const [e ,setE] = React.useState('')
+     const [g ,setG] = React.useState('')
      
         
 
@@ -440,7 +444,8 @@ const ele  = productData.map(function(item){
                 <table id="customers">
                   <tr>
                     <th>S.No.</th>
-                    <th>Product Name</th>
+                    <th>Product Name</th> 
+                    <th>Check</th> 
                     <th>Unit Pack</th>
                     <th>Quantity</th>
                     <th>Free</th>
@@ -471,6 +476,11 @@ const ele  = productData.map(function(item){
                         </select>
                         
                       </td>
+                        <td className="checkbox-td">
+                          <input  type="checkbox" />
+                          <input  type="checkbox" />
+                          <input  type="checkbox" />
+                        </td>
                       <td>
                         <input
                           type="text"
@@ -521,14 +531,14 @@ const ele  = productData.map(function(item){
                   
                     <tr>  
                           <td>{index +1}</td>
-                          <td>{item.ProductName}</td> 
+                          <td>{item.ProductName}</td>
+                          <td>check box</td>
                           <td>{item.unitPack}</td> 
                           <td>{item.Quantity}</td> 
                           <td>{item.free}</td> 
                           <td>{item.tradeRate}</td> 
                           <td>{item.discount}</td> 
                           <td>{item.amount}</td> 
-
                     </tr>
                   
 

@@ -331,7 +331,17 @@ body {
     cursor: pointer;
     
   }
-  
+
+  .checkbox-td {
+    display: flex;
+    flex-direction: column;
+  }
+
+
+  .checkbox-td > input{
+    border-radius: 2px;
+  }
+ 
    .submit-firm{
     background-color:#0A9AE3;
     margin-left: 8rem;
