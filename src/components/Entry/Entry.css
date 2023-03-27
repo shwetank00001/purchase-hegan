@@ -333,14 +333,22 @@ body {
   }
 
   .checkbox-td {
-    display: flex;
-    flex-direction: column;
+    display: flex;  
+    margin-left: -2rem;
   }
+.checkbox-1{
+  
+}
 
+.checkbox-2{
+  margin-left: -3rem;
+}
 
-  .checkbox-td > input{
-    border-radius: 2px;
-  }
+.checkbox-3{
+  margin-left: -3rem;
+  margin-right: -2rem;
+}
+
  
    .submit-firm{
     background-color:#0A9AE3;

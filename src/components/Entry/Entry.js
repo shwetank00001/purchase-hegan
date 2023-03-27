@@ -1,28 +1,34 @@
-import React, { useState, useEffect ,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Entry.css";
 const Entry = () => {
-   //getting all firm details from the data base 
-   const [firmData, setFirmData] = useState([]);
-     // console.log(firmData, "data is here ")
+  //getting all firm details from the data base
+  const [firmData, setFirmData] = useState([]);
+  // console.log(firmData, "data is here ")
 
- // this is for M F G checkbox
-     const [m ,setM] = React.useState('')
-     const [e ,setE] = React.useState('')
-     const [g ,setG] = React.useState('')
-     
-        
+  // this is for M F G checkbox
+  // register as wheter m or e it depends on user
+  const [registerAs, setregisterAs] = useState("");
+  const [g, setG] = React.useState("");
+  const [actualG, setActualG] = useState("");
+  console.log(registerAs);
+
+  const handleChangeG = () => {
+    setG(!g);
+    if (!g) {
+      setActualG("G");
+    } else {
+      setActualG("");
+    }
+  };
 
   const [firm, setFirm] = React.useState("");
-   console.log(firm,"setting from select")
-       
-  
-  
+  console.log(firm, "setting from select");
+
   const [region, setRegion] = React.useState("");
   const [type, setType] = React.useState("");
   const [date, setDate] = React.useState("");
   const [invoice, setInvoice] = React.useState("");
 
-    
   const [address, setAddress] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [mobile, setMobile] = React.useState("");
@@ -31,243 +37,228 @@ const Entry = () => {
   const [DL2, setDL2] = React.useState("");
   const [fssai, setFssai] = React.useState("");
 
+  //all the final details of purchase entry
+  const [subtotal, setSubtotal] = useState("");
+  const [disAmt, setDisAmt] = useState("");
+  const [totalTax, setTotalTax] = useState("");
+  const [goodReturn, setGoodReturn] = useState("");
+  const [cnVoucher, setCnVoucher] = useState("");
+  const [grandTotal, setGrandTotal] = useState("");
 
-    //all the final details of purchase entry
-      const [subtotal,setSubtotal] = useState("");
-      const [disAmt,setDisAmt] =useState("");
-      const [totalTax,setTotalTax] =useState("");
-      const [goodReturn,setGoodReturn]=useState("");
-      const [cnVoucher,setCnVoucher] = useState("");
-      const [grandTotal,setGrandTotal]=useState("");
-         
-
-      
-      
   //purchase product entry
-  const [unitPack,setUnitPack] = useState("");
-  const [Quantity,setQuantity] = useState("");
-  const [free ,setFree] =useState("");
-  const [tradeRate,setTradeRate] =useState("");
-  const [discount,setDiscount] =useState("");
-  const [amount,setAmount] =useState(""); 
-  
+  const [unitPack, setUnitPack] = useState("");
+  const [Quantity, setQuantity] = useState("");
+  const [free, setFree] = useState("");
+  const [tradeRate, setTradeRate] = useState("");
+  const [discount, setDiscount] = useState("");
+  const [amount, setAmount] = useState("");
 
   const [batch, setBatch] = React.useState("");
   const [Expiry, setExpiry] = React.useState("");
   const [mrp, setMrp] = React.useState("");
   const [HSN, setHSN] = React.useState("");
   const [netRate, setNetRate] = React.useState("");
-  const [IGST,setIGST] = useState("");
-  const [CGST, setCGST]= useState("");
-  const [SGST,setSGST] = useState(""); 
-  const [CESS,setCESS] = useState("");
- 
-   // here we are dividing value's of IGST into sgst and cgst
- function vikram(IGST){
-  setCGST(IGST/2);
-  setSGST(IGST/2);
- }
+  const [IGST, setIGST] = useState("");
+  const [CGST, setCGST] = useState("");
+  const [SGST, setSGST] = useState("");
+  const [CESS, setCESS] = useState("");
 
-    //alll product data for displaying product in the input field
-  const [productData,setProductData] =useState([]);
+  // here we are dividing value's of IGST into sgst and cgst
+  function vikram(IGST) {
+    setCGST(IGST / 2);
+    setSGST(IGST / 2);
+  }
+
+  //alll product data for displaying product in the input field
+  const [productData, setProductData] = useState([]);
   // storing product name in generatedData variable
   const [generatedData, setGeneratedData] = React.useState("");
-  const [product,setProductName]=useState("");
-  const [category,setCategory]  =useState("");
-  const [brand , setBrand] =useState("");
-  const [description,setDescription]=useState("");
-  const [unitpacking,setUnitPacking] =useState("");
-  const [hsn_sac_code,setHsn_sac_Code] =useState(""); 
-          
-   let [ProductEntries,setProductEntries]=useState([]);
-   let [firmEntries,setfirmEntries] =useState([]);
+  const [product, setProductName] = useState("");
+  const [category, setCategory] = useState("");
+  const [brand, setBrand] = useState("");
+  const [description, setDescription] = useState("");
+  const [unitpacking, setUnitPacking] = useState("");
+  const [hsn_sac_code, setHsn_sac_Code] = useState("");
 
-   const [inputDate,setInputDate] = useState("");
-   const [inputInvoiceNo,setInputInvoiceNo] = useState("");
-   const [inputAmt,setInputAmt] = useState("");
-    console.log(inputDate, inputInvoiceNo,inputAmt)
+  let [ProductEntries, setProductEntries] = useState([]);
+  let [firmEntries, setfirmEntries] = useState([]);
 
-      // formula one of the calculation's 
-      function FormulaOne(){
-        if(free){
-          for(let i = 0; i<free.length; i++){
-              if(free[i] === "+"){
-               
-               let x = '';
-               let y = '';
-               for(let i = 0; i<free.length; i++){
-                  if(free[i] != "+"){
-                     x+=free[i]
-                  }else{
-                  break;
-                  }
-               }
-               
-               for(let i = 0; i<free.length; i++){
-                  if(free[i] != "+"){
-                     y+=free[i]
-                  }else{
-                   y=''
-                  }
-               }
-               x = parseInt(x)
-               y = parseInt(y)
-               
-                let freeT = (y*100)/(x+y)
-                freeT = freeT.toFixed(2);
-                let data = Quantity*tradeRate;
-                let data2  = data*freeT/100
-                let data3 = data-data2
-                let dis = discount/100*data3
-                let AMt = data3 -dis;
-                let vik = IGST+CESS
-                let v = AMt*vik/100;
-                let final = (v+AMt).toFixed(2);
-                console.log(final)
-                setAmount(final)
-                return
-              }
+  const [inputDate, setInputDate] = useState("");
+  const [inputInvoiceNo, setInputInvoiceNo] = useState("");
+  const [inputAmt, setInputAmt] = useState("");
+  console.log(inputDate, inputInvoiceNo, inputAmt);
+
+  // formula one of the calculation's
+  function FormulaOne() {
+    if (free) {
+      for (let i = 0; i < free.length; i++) {
+        if (free[i] === "+") {
+          let x = "";
+          let y = "";
+          for (let i = 0; i < free.length; i++) {
+            if (free[i] != "+") {
+              x += free[i];
+            } else {
+              break;
             }
-         }
+          }
 
-       let data = Quantity*tradeRate;
-       let dis = discount/100*data
-       let AMt = data -dis
-         if(IGST && CESS){
-            let vik = parseInt(IGST) + parseInt(CESS);
-            let v = AMt*vik/100
-            let final = (v+AMt).toFixed(2);
-            setAmount(final)
-            return
-         }
-         else if(IGST){
-            let vik = parseInt(IGST);
-            let v = AMt*vik/100
-            let final = (v+AMt).toFixed(2);
-            setAmount(final)
-            return
-         }
-         else if(CESS){
-            let vik = parseInt(CESS);
-            let v = AMt*vik/100
-            let final = (v+AMt).toFixed(2);
-            setAmount(final)
-            return
-         }
-         else if(!CESS || !IGST){
-         let final = (AMt).toFixed(2);
-         setAmount(final)
-         return
-         }
-     }
+          for (let i = 0; i < free.length; i++) {
+            if (free[i] != "+") {
+              y += free[i];
+            } else {
+              y = "";
+            }
+          }
+          x = parseInt(x);
+          y = parseInt(y);
+
+          let freeT = (y * 100) / (x + y);
+          freeT = freeT.toFixed(2);
+          let data = Quantity * tradeRate;
+          let data2 = (data * freeT) / 100;
+          let data3 = data - data2;
+          let dis = (discount / 100) * data3;
+          let AMt = data3 - dis;
+          let vik = IGST + CESS;
+          let v = (AMt * vik) / 100;
+          let final = (v + AMt).toFixed(2);
+          console.log(final);
+          setAmount(final);
+          return;
+        }
+      }
+    }
+
+    let data = Quantity * tradeRate;
+    let dis = (discount / 100) * data;
+    let AMt = data - dis;
+    if (IGST && CESS) {
+      let vik = parseInt(IGST) + parseInt(CESS);
+      let v = (AMt * vik) / 100;
+      let final = (v + AMt).toFixed(2);
+      setAmount(final);
+      return;
+    } else if (IGST) {
+      let vik = parseInt(IGST);
+      let v = (AMt * vik) / 100;
+      let final = (v + AMt).toFixed(2);
+      setAmount(final);
+      return;
+    } else if (CESS) {
+      let vik = parseInt(CESS);
+      let v = (AMt * vik) / 100;
+      let final = (v + AMt).toFixed(2);
+      setAmount(final);
+      return;
+    } else if (!CESS || !IGST) {
+      let final = AMt.toFixed(2);
+      setAmount(final);
+      return;
+    }
+  }
 
   useEffect(() => {
     getFirmData();
     getProductData();
-},[]);
+  }, []);
+
+  function addNewrow() {
+    console.log("edited");
+  }
+
+  const ele = productData.map(function (item) {
+    return <tr></tr>;
+  });
+
+  function arrayOfObject() {
+    let firmObject = {
+      firmName: firm,
+      region: region,
+      type: type,
+      data: date,
+      invoice: invoice,
+      subtotal: subtotal,
+      disAmt: disAmt,
+      totalTax: totalTax,
+      goodReturn: goodReturn,
+      cnVoucher: cnVoucher,
+      grandTotal: grandTotal,
+    };
+
  
 
-function addNewrow(){
-  console.log('edited')
+    let ProductObj = {
+      ProductName: generatedData,
+      purchaseType : registerAs,
+      goodsReturn : actualG,
+      unitPack: unitPack,
+      Quantity: Quantity,
+      free: free,
+      tradeRate: tradeRate,
+      discount: discount,
+      batch: batch,
+      Expiry: Expiry,
+      mrp: mrp,
+      HSN: HSN,
+      netRate: netRate,
+      CGST: CGST,
+    };
+    if(actualG === "G"){
+      ProductObj.amount = -amount
+     }
+     if(!actualG){
+      ProductObj.amount = amount
+     }
 
-
-}
-
-const ele  = productData.map(function(item){
-  return(
-    
-        <tr>
-        </tr>
-    
-  )
-})
-
-     
-  function arrayOfObject(){
-   
-    let firmObject={
-      "firmName" : firm,  
-       "region"  : region,
-       "type"    : type,
-       "data"    : date,
-       "invoice" : invoice,
-       "subtotal": subtotal,
-       "disAmt"  : disAmt,
-       "totalTax": totalTax,
-       "goodReturn":goodReturn,
-       "cnVoucher" :cnVoucher,
-       "grandTotal":grandTotal
+    ProductEntries.push(ProductObj);
+    console.log(ProductEntries, ProductEntries.length);
   }
 
+  // getting all firm details from data base
+  const getFirmData = async () => {
+    let result = await fetch(
+      "http://localhost:5000/api/user/getAllFirmDetails",
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    result = await result.json();
+    setFirmData(result.data);
+  };
 
- let ProductObj={
-  "ProductName":generatedData,
-  "unitPack" :unitPack,
-  "Quantity" :Quantity,
-  "free" : free,
-  "tradeRate":tradeRate,
-  "discount" :discount,
-  "amount"   :amount,
-  "batch"  : batch,
-  "Expiry" : Expiry,
-  "mrp"  : mrp,
-  "HSN" : HSN,
-  "netRate" : netRate,
-  "CGST" : CGST
- }
+  // getting all the product details from the data base
+  const getProductData = async () => {
+    let result = await fetch("http://localhost:5000/api/user/getAll", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    result = await result.json();
+    setProductData(result.data);
+    console.log(result);
+  };
 
- ProductEntries.push(ProductObj)
- console.log(ProductEntries,ProductEntries.length)
-
-}
-
-
-
-       // getting all firm details from data base
-   const getFirmData = async () => {
-     let result = await fetch("http://localhost:5000/api/user/getAllFirmDetails", {
-      
-       headers: {
-        'Content-Type': 'application/json'
-       },
-     });
-     result = await result.json();
-     setFirmData(result.data);
-   };
-
-      // getting all the product details from the data base 
-      const getProductData = async () => {
-        let result = await fetch("http://localhost:5000/api/user/getAll", {
-          headers: {
-           'Content-Type': 'application/json'
-          },
-        });
-        result = await result.json();
-        setProductData(result.data);
-        console.log(result)
-      };
-
-   function handleChange(e) {
+  function handleChange(e) {
     const enteredName = e.target.value;
-    console.log(firmData)
+    console.log(firmData);
     setFirm(enteredName);
 
-        for(let i=0; i<firmData.length; i++){
-            if(firmData[i].firmName === e.target.value){
-            setAddress(firmData[i].fullAdd);
-            setEmail(firmData[i].email);
-            setMobile(firmData[i].mobileNo);
-            setGst(firmData[i].email);
-            setDL1(firmData[i].dl1);
-            setDL2(firmData[i].dl2);
-            setFssai(firmData[i].fssai);
-            console.log("all")
-            }
-        }
+    for (let i = 0; i < firmData.length; i++) {
+      if (firmData[i].firmName === e.target.value) {
+        setAddress(firmData[i].fullAdd);
+        setEmail(firmData[i].email);
+        setMobile(firmData[i].mobileNo);
+        setGst(firmData[i].email);
+        setDL1(firmData[i].dl1);
+        setDL2(firmData[i].dl2);
+        setFssai(firmData[i].fssai);
+        console.log("all");
+      }
+    }
   }
-
-
-
 
   // ------------------------------- this is printing 10 data```````````````````````````
 
@@ -287,16 +278,13 @@ const ele  = productData.map(function(item){
   //   console.log('asujhifhsfoisf')
   // };
 
-
-
-
   function handleSubmit(e) {
     e.preventDefault();
 
     console.log(firm, region, type, date, invoice);
     if (firm === "SHWETANK") {
       setRegion("INDIA");
-    
+
       setInvoice("AUTO INVOICE GENERATED");
       setBatch("Updated");
       setExpiry("Over");
@@ -313,45 +301,41 @@ const ele  = productData.map(function(item){
     }
   }
 
-
-
   // --------------------------------------------------- showing data in comments ---------------------
 
   // const [generatedData, setGeneratedData] = React.useState("");
 
-  // setting for output of product list 
+  // setting for output of product list
   function generateData(event) {
     const newData = event.target.value;
     setGeneratedData(newData);
-     for(let i = 0; i<productData.length; i++){
-         
-            if(productData[i].productName === event.target.value){
-              setProductName(productData[i].productName);
-              setCategory(productData[i].category);
-              setBrand(productData[i].brand);
-              setDescription(productData[i].description);
-              setUnitPacking(productData[i].unitPacking);
-              setHsn_sac_Code(productData[i].hsn_sac_code);
-          }
-      }    
+    for (let i = 0; i < productData.length; i++) {
+      if (productData[i].productName === event.target.value) {
+        setProductName(productData[i].productName);
+        setCategory(productData[i].category);
+        setBrand(productData[i].brand);
+        setDescription(productData[i].description);
+        setUnitPacking(productData[i].unitPacking);
+        setHsn_sac_Code(productData[i].hsn_sac_code);
+      }
+    }
   }
 
   // COMMENTS TABLE
   function CommentsTable(props) {
     return (
       <div className="total-empty">
-
         <p>{props.generatedData.product}</p>
         <p> {props.generatedData.brand}</p>
         <p>{props.generatedData.cat}</p>
         <p>{props.generatedData.unit}</p>
         <p>{props.generatedData.hac}</p>
 
-          <div className="total-empty-buttons">
+        <div className="total-empty-buttons">
           <button>Save</button>
           <button>Print</button>
           <button>View</button>
-        </div> 
+        </div>
       </div>
     );
   }
@@ -361,33 +345,30 @@ const ele  = productData.map(function(item){
       <div className="div-header">
         <h3>PURCHASE ENTRY</h3>
       </div>
-    
+
       <div className="first-half">
         <div className="top-two">
           <form onSubmit={handleSubmit} className="input-box">
             <div className="input-box-name">
-            <labeL> Firm Name</labeL>
-              <select 
-              htmlFor="firmName"    
-              onChange={handleChange}
-              className='FirmName'>
-              Firm Name
-              <br />
-              {
-                firmData.map((item,index) => (
-               <option
-                type= "button"
-                placeholder="First Name"
-                //  onChange={handleChange}
-                  onChange={ (e) => setFirm(e.target.value)}
-                 >
-              {item.firmName}
-            
-              </option>
-                ))
-              }
+              <labeL> Firm Name</labeL>
+              <select
+                htmlFor="firmName"
+                onChange={handleChange}
+                className="FirmName"
+              >
+                Firm Name
+                <br />
+                {firmData.map((item, index) => (
+                  <option
+                    type="button"
+                    placeholder="First Name"
+                    //  onChange={handleChange}
+                    onChange={(e) => setFirm(e.target.value)}
+                  >
+                    {item.firmName}
+                  </option>
+                ))}
               </select>
-
             </div>
             <div className="input-box-region">
               <label htmlFor="region">Region</label>
@@ -434,9 +415,9 @@ const ele  = productData.map(function(item){
                 onChange={(e) => setInvoice(e.target.value)}
               />
             </div>
-        </form>
+          </form>
 
-  {/* here product list entries getting product and dialing entry for products */}
+          {/* here product list entries getting product and dialing entry for products */}
 
           <div className="quantity-box">
             <div className="product">
@@ -444,8 +425,17 @@ const ele  = productData.map(function(item){
                 <table id="customers">
                   <tr>
                     <th>S.No.</th>
-                    <th>Product Name</th> 
-                    <th>Check</th> 
+                    <th>Product Name</th>
+                    <th className="innerMEG">
+                      <th>
+                        {" "}
+                        <th>M</th>
+                      </th>
+                      <th>
+                        <th>E</th>{" "}
+                      </th>
+                      <th>G</th>
+                    </th>
                     <th>Unit Pack</th>
                     <th>Quantity</th>
                     <th>Free</th>
@@ -459,9 +449,10 @@ const ele  = productData.map(function(item){
                       <input type="text" value={"1"} />
                     </td>
                     <td>
-                      <select htmlFor="firmName" 
-                      onChange={generateData}
-                      className="ProductName"
+                      <select
+                        htmlFor="firmName"
+                        onChange={generateData}
+                        className="ProductName"
                       >
                         Product Name
                         <br />
@@ -473,200 +464,227 @@ const ele  = productData.map(function(item){
                             {item.productName}
                           </option>
                         ))}
-                        </select>
-                        
-                      </td>
-                        <td className="checkbox-td">
-                          <input  type="checkbox" />
-                          <input  type="checkbox" />
-                          <input  type="checkbox" />
+                      </select>
+                    </td>
+                    <td className="checkbox-td">
+                      <div
+                        onClick={() => {
+                          setregisterAs("M");
+                        }}
+                      >
+                        <input
+                          className="checkbox-1"
+                          type="checkbox"
+                          value={registerAs}
+                          checked={registerAs === "M"}
+                        />
+                      </div>
+
+                      <div
+                        onClick={() => {
+                          setregisterAs("E");
+                        }}
+                      >
+                        <input
+                          className="checkbox-2"
+                          type="checkbox"
+                          value={registerAs}
+                          checked={registerAs === "E"}
+                        />
+                      </div>
+
+                      <input
+                        className="checkbox-3"
+                        type="checkbox"
+                        checked={g}
+                        onClick={handleChangeG}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        value={unitPack}
+                        onChange={(e) => setUnitPack(e.target.value)}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        value={Quantity}
+                        onChange={(e) => {
+                          setQuantity(e.target.value);
+                          FormulaOne();
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        value={free}
+                        onChange={(e) => {
+                          setFree(e.target.value);
+                          FormulaOne();
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        value={tradeRate}
+                        onChange={(e) => {
+                          setTradeRate(e.target.value);
+                          FormulaOne();
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        value={discount}
+                        onChange={(e) => {
+                          setDiscount(e.target.value);
+                          FormulaOne();
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <input type="text" value={amount} />
+                    </td>
+                  </tr>
+
+                  {ProductEntries.map(function (item, index) {
+                    return (
+                      <tr>
+              
+                        <td>{index + 1}</td>
+                        <td>{item.ProductName}</td>
+                        <td>
+                        <td>{item.purchaseType }</td>
+                        <td>{item.goodsReturn}</td>
                         </td>
-                      <td>
-                        <input
-                          type="text"
-                          value={unitPack}
-                          onChange={(e) => setUnitPack(e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          value={Quantity}
-                          onChange={(e) => {setQuantity(e.target.value); FormulaOne() }}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          value={free}
-                          onChange={(e) => {setFree(e.target.value); FormulaOne() }}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          value={tradeRate}
-                          onChange={(e) => { setTradeRate(e.target.value); FormulaOne()}}
-                        />
-                      </td>
-                      <td>
-                <input
-                  type="text"
-                  value={discount}
-                  onChange={(e) => {setDiscount(e.target.value); FormulaOne() }}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={amount}
-                /> 
-              </td>
-            </tr>
+                        <td>{item.unitPack}</td>
+                        <td>{item.Quantity}</td>
+                        <td>{item.free}</td>
+                        <td>{item.tradeRate}</td>
+                        <td>{item.discount}</td>
+                        <td>{item.amount}</td>
+                      </tr>
+                    );
+                  })}
+                </table>
+              </div>
+            </div>
 
-          
-            {
-              ProductEntries.map(function(item, index){
-                return(
-                  
-                    <tr>  
-                          <td>{index +1}</td>
-                          <td>{item.ProductName}</td>
-                          <td>check box</td>
-                          <td>{item.unitPack}</td> 
-                          <td>{item.Quantity}</td> 
-                          <td>{item.free}</td> 
-                          <td>{item.tradeRate}</td> 
-                          <td>{item.discount}</td> 
-                          <td>{item.amount}</td> 
-                    </tr>
-                  
-
-                  
-                )
-              })
-            }
-           
-
-           
-          </table>
-
-        </div>
-       
-
-        
-
-      </div>
-     
-       
-       {/* batch number and all the other information which is used by the user while purchasing the product */}
+            {/* batch number and all the other information which is used by the user while purchasing the product */}
 
             <div className="quantity-box-bottom">
-            
               <div className="qty-comments">
                 <div className="box">
-                 
-
                   <div className="label-for-second">
-                  <div className="BatchNo">
-                  <label htmlFor="batch">Batch No.</label>
-                    <input
-                      id="BatchNo"
-                      value={batch}
-                      type="text"
-                      onChange={(e) => setBatch(e.target.value)}
-                    />
+                    <div className="BatchNo">
+                      <label htmlFor="batch">Batch No.</label>
+                      <input
+                        id="BatchNo"
+                        value={batch}
+                        type="text"
+                        onChange={(e) => setBatch(e.target.value)}
+                      />
                     </div>
 
-                  <div className="Expiry">
-                    <label htmlFor="Expiry">Expiry</label>
-                    <input
-                      id="Expiry"
-                      value={Expiry}
-                      type="text"
-                      onChange={(e) => setExpiry(e.target.value)}
-                    />
+                    <div className="Expiry">
+                      <label htmlFor="Expiry">Expiry</label>
+                      <input
+                        id="Expiry"
+                        value={Expiry}
+                        type="text"
+                        onChange={(e) => setExpiry(e.target.value)}
+                      />
                     </div>
-        
-                   <div className="MRP">
-                    <label htmlFor="mrp">MRP</label>
-                     <input
-                      id="MRP"
-                      value={mrp}
-                      type="text"
-                      onChange={(e) => setMrp(e.target.value)}
-                    />
+
+                    <div className="MRP">
+                      <label htmlFor="mrp">MRP</label>
+                      <input
+                        id="MRP"
+                        value={mrp}
+                        type="text"
+                        onChange={(e) => setMrp(e.target.value)}
+                      />
                     </div>
                     <div className="HSN">
-                    <label htmlFor="hsn">HSN/SAC</label>
-                     <input
-                      id="HSN"
-                      value={HSN}
-                      type="text"
-                      onChange={(e) => setHSN(e.target.value)}
-                    />
-                    </div>
-
-                   </div>
-                 
-
-                    <div className="label-for-four">
-                    <div className="NetRate">
-                   
-                    </div>
-
-                       <label className="TAX">TAX</label>
-                       <div className="IGST">
-                    <label htmlFor="Net Rate">IGST</label>
+                      <label htmlFor="hsn">HSN/SAC</label>
                       <input
-                      
-                      value={IGST}
-                      type="text"
-                      onChange={(e) => { setIGST(e.target.value);  vikram(e.target.value); FormulaOne() }  }
-                    />
+                        id="HSN"
+                        value={HSN}
+                        type="text"
+                        onChange={(e) => setHSN(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="label-for-four">
+                    <div className="NetRate"></div>
+
+                    <label className="TAX">TAX</label>
+                    <div className="IGST">
+                      <label htmlFor="Net Rate">IGST</label>
+                      <input
+                        value={IGST}
+                        type="text"
+                        onChange={(e) => {
+                          setIGST(e.target.value);
+                          vikram(e.target.value);
+                          FormulaOne();
+                        }}
+                      />
                     </div>
 
-                     <div className="CGST">
-                     <label htmlFor="CGST">CGST</label>
+                    <div className="CGST">
+                      <label htmlFor="CGST">CGST</label>
                       <input
-                      id="CGST"
-                      value={CGST}
-                      type="text"
-                      onChange={(e) => setCGST(e.target.value)}
-                    />
-                     </div>
-                      
-                     <div className="SGST">
-                     <label htmlFor="Net Rate">SGST</label>
-                     <input
-                      id="Net Rate"
-                      className="NetRate"
-                      value={SGST}
-                      type="text"
-                      onChange={(e) => setSGST(e.target.value)}
-                    />
+                        id="CGST"
+                        value={CGST}
+                        type="text"
+                        onChange={(e) => setCGST(e.target.value)}
+                      />
+                    </div>
+
+                    <div className="SGST">
+                      <label htmlFor="Net Rate">SGST</label>
+                      <input
+                        id="Net Rate"
+                        className="NetRate"
+                        value={SGST}
+                        type="text"
+                        onChange={(e) => setSGST(e.target.value)}
+                      />
                     </div>
 
                     <div className="CESS">
-                    <label htmlFor="Net Rate">CESS</label>
-                    <input
-                      id="Net Rate"
-                      value={CESS}
-                      type="text"
-                      onChange={(e) => { setCESS(e.target.value); FormulaOne()}}
-                    />
+                      <label htmlFor="Net Rate">CESS</label>
+                      <input
+                        id="Net Rate"
+                        value={CESS}
+                        type="text"
+                        onChange={(e) => {
+                          setCESS(e.target.value);
+                          FormulaOne();
+                        }}
+                      />
                     </div>
-                  
-                  
-                   
                   </div>
-                   <button className="submit-firm" onClick={ () => { arrayOfObject(); FormulaOne();addNewrow()  }}>
-                 Add Product
+                  <button
+                    className="submit-firm"
+                    onClick={() => {
+                      arrayOfObject();
+                      FormulaOne();
+                      addNewrow();
+                    }}
+                  >
+                    Add Product
                   </button>
-                 
                 </div>
               </div>
-{/* date invoice no amout  */}
+              {/* date invoice no amout  */}
 
               {/* <div className="Date-Invoice-Amt-Main">
                  <div className="Date-Invoice-Amt">
@@ -693,7 +711,7 @@ const ele  = productData.map(function(item){
                  </div>
              </div> */}
 
-    {/* qty details  */}
+              {/* qty details  */}
               <div className="qty-details">
                 {button && (
                   <table id="customers">
@@ -703,22 +721,18 @@ const ele  = productData.map(function(item){
                       <th>Unit </th>
                     </tr>
                     <tbody>
-                      { productData.length > 1 ?
-                        productData.map(function(item,index){
-                      console.log(item)
-                      return(
-                              
-                                <tr key={item.id}>
-                                          <td>{item.productName} </td>
-                                          <td>{item.brand}</td>
-                                          <td>{item.category}</td>
-                                </tr>
-
-                                
-                              
-                              )
-                              }) :"No entries"
-                            }
+                      {productData.length > 1
+                        ? productData.map(function (item, index) {
+                            console.log(item);
+                            return (
+                              <tr key={item.id}>
+                                <td>{item.productName} </td>
+                                <td>{item.brand}</td>
+                                <td>{item.category}</td>
+                              </tr>
+                            );
+                          })
+                        : "No entries"}
                     </tbody>
                   </table>
                 )}
@@ -727,8 +741,8 @@ const ele  = productData.map(function(item){
           </div>
         </div>
 
-    {/* here all firm name genereator detials which we are pre filling from the data which we are getting from the backend firm list     */}
-      
+        {/* here all firm name genereator detials which we are pre filling from the data which we are getting from the backend firm list     */}
+
         <div className="contact-box">
           <div className="contact-box-input">
             <label htmlFor="add">Address</label>
@@ -737,7 +751,7 @@ const ele  = productData.map(function(item){
               id="add"
               type="text"
               value={address}
-            //   onChange={(e) => setAddress(e.target.value)}
+              //   onChange={(e) => setAddress(e.target.value)}
             />
             <br />
             <br />
@@ -747,7 +761,7 @@ const ele  = productData.map(function(item){
             <input
               id="email"
               value={email}
-            //   onChange={(e) => setEmail(e.target.value)}
+              //   onChange={(e) => setEmail(e.target.value)}
             />
             <br />
             <br />
@@ -757,7 +771,7 @@ const ele  = productData.map(function(item){
             <input
               id="mobile"
               value={mobile}
-            //   onChange={(e) => setMobile(e.target.value)}
+              //   onChange={(e) => setMobile(e.target.value)}
             />
             <br />
             <br />
@@ -767,7 +781,7 @@ const ele  = productData.map(function(item){
             <input
               id="gst"
               value={gst}
-            //   onChange={(e) => setGst(e.target.value)}
+              //   onChange={(e) => setGst(e.target.value)}
             />
             <br />
             <br />
@@ -777,7 +791,7 @@ const ele  = productData.map(function(item){
             <input
               id="DL2"
               value={DL1}
-            //   onChange={(e) => setDL1(e.target.value)}
+              //   onChange={(e) => setDL1(e.target.value)}
             />
             <br />
             <br />
@@ -787,7 +801,7 @@ const ele  = productData.map(function(item){
             <input
               id="DL2"
               value={DL2}
-            //   onChange={(e) => setDL2(e.target.value)}
+              //   onChange={(e) => setDL2(e.target.value)}
             />
             <br />
             <br />
@@ -797,7 +811,7 @@ const ele  = productData.map(function(item){
             <input
               id="fssai"
               value={fssai}
-            //   onChange={(e) => setFssai(e.target.value)}
+              //   onChange={(e) => setFssai(e.target.value)}
             />
             <br />
             <br />
@@ -807,8 +821,16 @@ const ele  = productData.map(function(item){
 
       <div className="bottom-half">
         <div className="total-box">
-          <CommentsTable generatedData={{ product : generatedData , cat : category, brand : brand, unit : unitpacking, hac :hsn_sac_code }}/>
-          <div className="total-values">           
+          <CommentsTable
+            generatedData={{
+              product: generatedData,
+              cat: category,
+              brand: brand,
+              unit: unitpacking,
+              hac: hsn_sac_code,
+            }}
+          />
+          <div className="total-values">
             <div className="total-values-button">
               <button>Sub. Total</button>
               <button>Disc. Amount</button>
@@ -820,30 +842,27 @@ const ele  = productData.map(function(item){
           </div>
         </div>
         <div className="blank-box">
-        <input 
-         value = {subtotal}
-         onChange={(e) => setSubtotal(e.target.value)}
-      /> 
-      <input
-         value = {disAmt}
-         onChange={(e) => setDisAmt(e.target.value)}
-      /> 
-      <input 
-         value = {totalTax}
-         onChange={(e) => setTotalTax(e.target.value)}
-      /> 
-      <input
-          value = {goodReturn}
-          onChange={(e) => setGoodReturn(e.target.value)}
-       /> 
-      <input 
-          value = {cnVoucher}
-          onChange={(e) => setCnVoucher(e.target.value)}
-      /> 
-      <input 
-          value = {grandTotal}
-          onChange={(e) => setGrandTotal(e.target.value)}
-      />
+          <input
+            value={subtotal}
+            onChange={(e) => setSubtotal(e.target.value)}
+          />
+          <input value={disAmt} onChange={(e) => setDisAmt(e.target.value)} />
+          <input
+            value={totalTax}
+            onChange={(e) => setTotalTax(e.target.value)}
+          />
+          <input
+            value={goodReturn}
+            onChange={(e) => setGoodReturn(e.target.value)}
+          />
+          <input
+            value={cnVoucher}
+            onChange={(e) => setCnVoucher(e.target.value)}
+          />
+          <input
+            value={grandTotal}
+            onChange={(e) => setGrandTotal(e.target.value)}
+          />
         </div>
       </div>
     </div>
