@@ -21,6 +21,15 @@ const Entry = () => {
     }
   };
 
+  const [showModal, setShowModal] = React.useState(false)
+
+  function openModal(){
+   setShowModal(function(item){
+     return(!item)
+   })
+  }
+  
+
   const [firm, setFirm] = React.useState("");
   console.log(firm, "setting from select");
 
@@ -535,6 +544,7 @@ const Entry = () => {
                           setTradeRate(e.target.value);
                           FormulaOne();
                         }}
+                        onClick={openModal}
                       />
                     </td>
                     <td>
@@ -578,7 +588,7 @@ const Entry = () => {
             {/* batch number and all the other information which is used by the user while purchasing the product */}
 
             <div className="quantity-box-bottom">
-              <div className="qty-comments">
+             { showModal && <div className="qty-comments">
                 <div className="box">
                   <div className="label-for-second">
                     <div className="BatchNo">
@@ -678,12 +688,13 @@ const Entry = () => {
                       arrayOfObject();
                       FormulaOne();
                       addNewrow();
+                      openModal()
                     }}
                   >
                     Add Product
                   </button>
                 </div>
-              </div>
+              </div>}
               {/* date invoice no amout  */}
 
               {/* <div className="Date-Invoice-Amt-Main">
@@ -712,31 +723,7 @@ const Entry = () => {
              </div> */}
 
               {/* qty details  */}
-              <div className="qty-details">
-                {button && (
-                  <table id="customers">
-                    <tr className="qty-detail-header">
-                      <th>Date </th>
-                      <th>Invoice No.</th>
-                      <th>Unit </th>
-                    </tr>
-                    <tbody>
-                      {productData.length > 1
-                        ? productData.map(function (item, index) {
-                            console.log(item);
-                            return (
-                              <tr key={item.id}>
-                                <td>{item.productName} </td>
-                                <td>{item.brand}</td>
-                                <td>{item.category}</td>
-                              </tr>
-                            );
-                          })
-                        : "No entries"}
-                    </tbody>
-                  </table>
-                )}
-              </div>
+
             </div>
           </div>
         </div>
@@ -830,6 +817,36 @@ const Entry = () => {
               hac: hsn_sac_code,
             }}
           />
+
+<div className="qty-details">
+                {button && (
+                  <table id="customers">
+                    <tr className="qty-detail-header">
+                      <th>Date </th>
+                      <th>Invoice No.</th>
+                      <th>Unit </th>
+                    </tr>
+                    <tbody>
+                      { productData.length > 1 ?
+                        productData.map(function(item,index){
+                      console.log(item)
+                      return(
+                              
+                                <tr key={item.id}>
+                                          <td>{item.productName} </td>
+                                          <td>{item.brand}</td>
+                                          <td>{item.category}</td>
+                                </tr>
+
+                                
+                              
+                              )
+                              }) :"No entries"
+                            }
+                    </tbody>
+                  </table>
+                )}
+              </div>
           <div className="total-values">
             <div className="total-values-button">
               <button>Sub. Total</button>
