@@ -10,7 +10,7 @@ const Entry = () => {
   const [registerAs, setregisterAs] = useState("");
   const [g, setG] = React.useState("");
   const [actualG, setActualG] = useState("");
-  console.log(registerAs);
+  
 
   const handleChangeG = () => {
     setG(!g);
@@ -20,18 +20,25 @@ const Entry = () => {
       setActualG("");
     }
   };
-
+   
+     // setting for subtotle which we are suign in line no 226 
+       let [subCalculate, setSubCalculate] = useState(""); 
+       let [discountAmount,setDiscountAmount]=useState("");
+       let [FinallTax,setFinallTex] = useState(0);
+       let [finalGoodReturn,setfinalGoodReturn] = useState(0);
+       let [TotalSumPay,setTotalSumPay] = useState(0);
+       let [GoodsReturnSum,setGoodsReturnPay] = useState(0);
+  // for showing model and hiding model
   const [showModal, setShowModal] = React.useState(false)
 
-  function openModal(){
-   setShowModal(function(item){
-     return(!item)
-   })
-  }
-  
+     function openModal(){
+      setShowModal(function(item){
+        return(!item)
+      })
+     }
 
   const [firm, setFirm] = React.useState("");
-  console.log(firm, "setting from select");
+  
 
   const [region, setRegion] = React.useState("");
   const [type, setType] = React.useState("");
@@ -95,7 +102,7 @@ const Entry = () => {
   const [inputDate, setInputDate] = useState("");
   const [inputInvoiceNo, setInputInvoiceNo] = useState("");
   const [inputAmt, setInputAmt] = useState("");
-  console.log(inputDate, inputInvoiceNo, inputAmt);
+  
 
   // formula one of the calculation's
   function FormulaOne() {
@@ -125,6 +132,7 @@ const Entry = () => {
           let freeT = (y * 100) / (x + y);
           freeT = freeT.toFixed(2);
           let data = Quantity * tradeRate;
+          
           let data2 = (data * freeT) / 100;
           let data3 = data - data2;
           let dis = (discount / 100) * data3;
@@ -132,8 +140,9 @@ const Entry = () => {
           let vik = IGST + CESS;
           let v = (AMt * vik) / 100;
           let final = (v + AMt).toFixed(2);
-          console.log(final);
+      
           setAmount(final);
+          arrayOfObject(final);
           return;
         }
       }
@@ -147,24 +156,30 @@ const Entry = () => {
       let v = (AMt * vik) / 100;
       let final = (v + AMt).toFixed(2);
       setAmount(final);
+      arrayOfObject(final);
       return;
     } else if (IGST) {
       let vik = parseInt(IGST);
       let v = (AMt * vik) / 100;
       let final = (v + AMt).toFixed(2);
       setAmount(final);
+       arrayOfObject(final);
       return;
     } else if (CESS) {
       let vik = parseInt(CESS);
       let v = (AMt * vik) / 100;
       let final = (v + AMt).toFixed(2);
       setAmount(final);
+      arrayOfObject(final);
       return;
     } else if (!CESS || !IGST) {
       let final = AMt.toFixed(2);
       setAmount(final);
+      arrayOfObject(final);
       return;
     }
+    
+   
   }
 
   useEffect(() => {
@@ -173,14 +188,15 @@ const Entry = () => {
   }, []);
 
   function addNewrow() {
-    console.log("edited");
+    
   }
 
   const ele = productData.map(function (item) {
     return <tr></tr>;
   });
 
-  function arrayOfObject() {
+  function arrayOfObject(props) {
+    console.log(props)
     let firmObject = {
       firmName: firm,
       region: region,
@@ -190,7 +206,6 @@ const Entry = () => {
       subtotal: subtotal,
       disAmt: disAmt,
       totalTax: totalTax,
-      goodReturn: goodReturn,
       cnVoucher: cnVoucher,
       grandTotal: grandTotal,
     };
@@ -206,23 +221,157 @@ const Entry = () => {
       free: free,
       tradeRate: tradeRate,
       discount: discount,
+      amount : props,
       batch: batch,
       Expiry: Expiry,
       mrp: mrp,
       HSN: HSN,
       netRate: netRate,
+      IGST:IGST,
+      SGST:SGST,
+      CESS:CESS,
       CGST: CGST,
     };
-    if(actualG === "G"){
-      ProductObj.amount = -amount
-     }
-     if(!actualG){
-      ProductObj.amount = amount
-     }
+   
+   // console.log(ProductObj.amount);
 
     ProductEntries.push(ProductObj);
-    console.log(ProductEntries, ProductEntries.length);
-  }
+   
+        // adding if user is giving G then we are calculating these values for Sub Total
+       
+        let total =0
+        let data = 0;
+        for(let i = 0; i<ProductEntries.length; i++){
+             
+          if(!ProductEntries[i].goodsReturn){
+                TotalSumPay  += ProductEntries[i].amount
+          }
+            if(ProductEntries[i].goodsReturn){
+              GoodsReturnSum += ProductEntries[i].amount
+            }
+                
+
+ 
+           // goods return calculations 
+          if(ProductEntries[i].goodsReturn){
+           let v = 0;
+            v = ProductEntries[i].amount;
+            v = parseFloat(v)
+            finalGoodReturn = parseFloat(finalGoodReturn);
+            finalGoodReturn += v; 
+            finalGoodReturn =  finalGoodReturn.toFixed(2);   
+            setGoodReturn(finalGoodReturn);
+          } 
+
+          // if there is no good return then this calculations 
+          if(!ProductEntries[i].goodsReturn ){
+              // if user is giving free
+              if (ProductEntries[i].free) {
+                 let free = ProductEntries[i].free
+                for (let i = 0; i < free.length; i++) {
+                  if (free[i] === "+") {
+                    let x = "";
+                    let y = "";
+                    for (let i = 0; i < free.length; i++) {
+                      if (free[i] != "+") {
+                        x += free[i];
+                      } else {
+                        break;
+                      }
+                    }
+          
+                    for (let i = 0; i < free.length; i++) {
+                      if (free[i] != "+") {
+                        y += free[i];
+                      } else {
+                        y = "";
+                      }
+                    }
+                    x = parseInt(x);
+                    y = parseInt(y);
+                     
+             
+                    let freeT = (y * 100) / (x + y);
+                    freeT = freeT.toFixed(2);
+                    let data = ProductEntries[i].Quantity * ProductEntries[i].tradeRate;
+                   
+                    let data2 = (data * freeT) / 100;
+                    let data3 = data - data2;
+                    let dis = (ProductEntries[i].discount / 100) * data3;
+                    let AMt = data3 - dis;
+                    let vik = ProductEntries[i].IGST + ProductEntries[i].CESS;
+                    let v = (AMt * vik) / 100;
+                    v = parseFloat(v)
+                    FinallTax = parseFloat(FinallTax);
+                    FinallTax += v; 
+                    FinallTax =  FinallTax.toFixed(2);             
+                    setTotalTax(FinallTax)
+                    
+                  }
+                }
+              }
+             
+            // without free
+            // here sub total 
+            subCalculate +=   ProductEntries[i].tradeRate * ProductEntries[i].Quantity
+            subCalculate = parseInt(subCalculate)
+            // here discount 
+            data += ProductEntries[i].Quantity * ProductEntries[i].tradeRate;
+            data = parseInt(data);
+            discountAmount += (ProductEntries[i].discount / 100) * data; 
+            discountAmount = parseInt(discountAmount);
+            data = 0;
+
+            // total tax 
+            let data1 = ProductEntries[i].Quantity * ProductEntries[i].tradeRate;
+            data1 = parseFloat(data1)
+            let dis = (ProductEntries[i].discount / 100) * data1;
+            let AMt = data1 - dis;
+            if (ProductEntries[i].IGST && ProductEntries[i].CESS) {
+              let vik = parseFloat(ProductEntries[i].IGST) + parseFloat( ProductEntries[i].CESS);
+              let v = (AMt * vik) / 100;
+              // v = v.toFixed(2);
+              v = parseFloat(v)
+              FinallTax = parseFloat(FinallTax);
+              FinallTax += v; 
+              FinallTax =  FinallTax.toFixed(2);             
+              setTotalTax(FinallTax)
+
+            } if(ProductEntries[i].IGST && !ProductEntries[i].CESS ) {
+              let vik = parseInt(IGST);
+              let v = (AMt * vik) / 100;
+              v = parseFloat(v)
+              FinallTax = parseFloat(FinallTax);
+              FinallTax += v; 
+              FinallTax =  FinallTax.toFixed(2);             
+              setTotalTax(FinallTax)
+             
+            } if(!ProductEntries[i].IGST && ProductEntries[i].CESS) {
+              let vik = parseInt(CESS);
+              let v = (AMt * vik) / 100;
+              v = parseFloat(v)
+              FinallTax = parseFloat(FinallTax);
+              FinallTax += v; 
+              FinallTax =  FinallTax.toFixed(2);             
+              setTotalTax(FinallTax)
+             
+            // }if (!ProductEntries[i].IGST || !ProductEntries[i].CESS) {
+            //   let final = AMt.toFixed(2);
+            //   setAmount(final);
+             
+            // }
+          }
+          }
+        }    
+            total = subCalculate 
+            setSubtotal(total)
+            total = 0;
+            setDisAmt(discountAmount);
+
+            let sum  = TotalSumPay - GoodsReturnSum;
+            setGrandTotal(sum)
+    }
+  
 
   // getting all firm details from data base
   const getFirmData = async () => {
@@ -247,12 +396,12 @@ const Entry = () => {
     });
     result = await result.json();
     setProductData(result.data);
-    console.log(result);
+   
   };
 
   function handleChange(e) {
     const enteredName = e.target.value;
-    console.log(firmData);
+  
     setFirm(enteredName);
 
     for (let i = 0; i < firmData.length; i++) {
@@ -264,7 +413,7 @@ const Entry = () => {
         setDL1(firmData[i].dl1);
         setDL2(firmData[i].dl2);
         setFssai(firmData[i].fssai);
-        console.log("all");
+        
       }
     }
   }
@@ -284,13 +433,13 @@ const Entry = () => {
   //         </tr>
   //     </div>)
   //   })
-  //   console.log('asujhifhsfoisf')
+  //   
   // };
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    console.log(firm, region, type, date, invoice);
+    
     if (firm === "SHWETANK") {
       setRegion("INDIA");
 
@@ -306,7 +455,7 @@ const Entry = () => {
         return !item;
       });
 
-      console.log("updated");
+      
     }
   }
 
@@ -334,11 +483,11 @@ const Entry = () => {
   function CommentsTable(props) {
     return (
       <div className="total-empty">
-        <p>Product Name - {props.generatedData.product}</p>
-        <p> Product Brand - {props.generatedData.brand}</p>
-        <p> Gender-{props.generatedData.cat}</p>
-        <p>Purchase Unit - {props.generatedData.unit}</p>
-        <p> HAC No. -{props.generatedData.hac}</p>
+        <p>{props.generatedData.product}</p>
+        <p> {props.generatedData.brand}</p>
+        <p>{props.generatedData.cat}</p>
+        <p>{props.generatedData.unit}</p>
+        <p>{props.generatedData.hac}</p>
 
         <div className="total-empty-buttons">
           <button>Save</button>
@@ -432,7 +581,7 @@ const Entry = () => {
             <div className="product">
               <div className="quantity-box-top">
                 <table id="customers">
-                  <tr className="table-customer-header">
+                  <tr>
                     <th>S.No.</th>
                     <th>Product Name</th>
                     <th className="innerMEG">
@@ -453,27 +602,27 @@ const Entry = () => {
                     <th>Amt</th>
                   </tr>
 
-                  <tr className="table-customer-value">
+                  <tr>
                     <td>
                       <input type="text" value={"1"} />
                     </td>
                     <td>
-                          <select
-                            htmlFor="firmName"
-                            onChange={generateData}
-                            className="ProductName"
+                      <select
+                        htmlFor="firmName"
+                        onChange={generateData}
+                        className="ProductName"
+                      >
+                        Product Name
+                        <br />
+                        {productData.map((item, index) => (
+                          <option
+                            placeholder="First Name"
+                            onChange={(e) => setGeneratedData(e.target.value)}
                           >
-                            Product Name
-                            <br />
-                            {productData.map((item, index) => (
-                              <option
-                                placeholder="First Name"
-                                onChange={(e) => setGeneratedData(e.target.value)}
-                              >
-                                {item.productName}
-                              </option>
-                            ))}
-                          </select>
+                            {item.productName}
+                          </option>
+                        ))}
+                      </select>
                     </td>
                     <td className="checkbox-td">
                       <div
@@ -509,7 +658,6 @@ const Entry = () => {
                         onClick={handleChangeG}
                       />
                     </td>
-
                     <td>
                       <input
                         type="text"
@@ -517,25 +665,23 @@ const Entry = () => {
                         onChange={(e) => setUnitPack(e.target.value)}
                       />
                     </td>
-
                     <td>
                       <input
                         type="text"
                         value={Quantity}
                         onChange={(e) => {
                           setQuantity(e.target.value);
-                          FormulaOne();
+                          // FormulaOne();
                         }}
                       />
                     </td>
-
                     <td>
                       <input
                         type="text"
                         value={free}
                         onChange={(e) => {
                           setFree(e.target.value);
-                          FormulaOne();
+                          // FormulaOne();
                         }}
                       />
                     </td>
@@ -545,7 +691,8 @@ const Entry = () => {
                         value={tradeRate}
                         onChange={(e) => {
                           setTradeRate(e.target.value);
-                          FormulaOne();
+                          // FormulaOne();
+                          
                         }}
                         onClick={openModal}
                       />
@@ -556,18 +703,19 @@ const Entry = () => {
                         value={discount}
                         onChange={(e) => {
                           setDiscount(e.target.value);
-                          FormulaOne();
+                          // FormulaOne();
                         }}
                       />
                     </td>
                     <td>
-                      <input type="text" value={amount} />
+                      <input type="text" 
+                       value={amount} />
                     </td>
                   </tr>
 
                   {ProductEntries.map(function (item, index) {
                     return (
-                      <tr className="table-backend-value">
+                      <tr>
               
                         <td>{index + 1}</td>
                         <td>{item.ProductName}</td>
@@ -591,7 +739,8 @@ const Entry = () => {
             {/* batch number and all the other information which is used by the user while purchasing the product */}
 
             <div className="quantity-box-bottom">
-             { showModal && <div className="qty-comments">
+      { showModal &&  <div className="qty-comments">
+
                 <div className="box">
                   <div className="label-for-second">
                     <div className="BatchNo">
@@ -646,7 +795,7 @@ const Entry = () => {
                         onChange={(e) => {
                           setIGST(e.target.value);
                           vikram(e.target.value);
-                          FormulaOne();
+                          // FormulaOne();
                         }}
                       />
                     </div>
@@ -686,12 +835,12 @@ const Entry = () => {
                     </div>
                   </div>
                   <button
-                    className="submit-firm"
-                    onClick={() => {
-                      arrayOfObject();
+                      className="submit-firm"
+                      onClick={() => {
+                      // arrayOfObject();
                       FormulaOne();
                       addNewrow();
-                      openModal()
+                      openModal();
                     }}
                   >
                     Add Product
@@ -726,7 +875,31 @@ const Entry = () => {
              </div> */}
 
               {/* qty details  */}
-
+              <div className="qty-details">
+                {button && (
+                  <table id="customers">
+                    <tr className="qty-detail-header">
+                      <th>Date </th>
+                      <th>Invoice No.</th>
+                      <th>Unit </th>
+                    </tr>
+                    <tbody>
+                      {productData.length > 1
+                        ? productData.map(function (item, index) {
+                            
+                            return (
+                              <tr key={item.id}>
+                                <td>{item.productName} </td>
+                                <td>{item.brand}</td>
+                                <td>{item.category}</td>
+                              </tr>
+                            );
+                          })
+                        : "No entries"}
+                    </tbody>
+                  </table>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -820,36 +993,6 @@ const Entry = () => {
               hac: hsn_sac_code,
             }}
           />
-
-<div className="qty-details">
-                {button && (
-                  <table id="customers">
-                    <tr className="qty-detail-header">
-                      <th>Date </th>
-                      <th>Invoice No.</th>
-                      <th>Unit </th>
-                    </tr>
-                    <tbody>
-                      { productData.length > 1 ?
-                        productData.map(function(item,index){
-                      console.log(item)
-                      return(
-                              
-                                <tr key={item.id}>
-                                          <td>{item.productName} </td>
-                                          <td>{item.brand}</td>
-                                          <td>{item.category}</td>
-                                </tr>
-
-                                
-                              
-                              )
-                              }) :"No entries"
-                            }
-                    </tbody>
-                  </table>
-                )}
-              </div>
           <div className="total-values">
             <div className="total-values-button">
               <button>Sub. Total</button>
@@ -857,31 +1000,29 @@ const Entry = () => {
               <button>Total Tax</button>
               <button>Goods Return(R)</button>
               <button>CN. Voucher </button>
-              <button>Grand Total</button>
+              <button>Payable Amount</button>
             </div>
           </div>
         </div>
         <div className="blank-box">
           <input
             value={subtotal}
-            onChange={(e) => setSubtotal(e.target.value)}
           />
-          <input value={disAmt} onChange={(e) => setDisAmt(e.target.value)} />
+          <input value={disAmt} 
+           />
           <input
             value={totalTax}
-            onChange={(e) => setTotalTax(e.target.value)}
-          />
+            />
           <input
             value={goodReturn}
-            onChange={(e) => setGoodReturn(e.target.value)}
-          />
+           />
           <input
             value={cnVoucher}
             onChange={(e) => setCnVoucher(e.target.value)}
           />
           <input
             value={grandTotal}
-            onChange={(e) => setGrandTotal(e.target.value)}
+            
           />
         </div>
       </div>
