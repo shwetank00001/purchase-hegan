@@ -334,11 +334,11 @@ const Entry = () => {
   function CommentsTable(props) {
     return (
       <div className="total-empty">
-        <p>{props.generatedData.product}</p>
-        <p> {props.generatedData.brand}</p>
-        <p>{props.generatedData.cat}</p>
-        <p>{props.generatedData.unit}</p>
-        <p>{props.generatedData.hac}</p>
+        <p>Product Name - {props.generatedData.product}</p>
+        <p> Product Brand - {props.generatedData.brand}</p>
+        <p> Gender-{props.generatedData.cat}</p>
+        <p>Purchase Unit - {props.generatedData.unit}</p>
+        <p> HAC No. -{props.generatedData.hac}</p>
 
         <div className="total-empty-buttons">
           <button>Save</button>
@@ -432,7 +432,7 @@ const Entry = () => {
             <div className="product">
               <div className="quantity-box-top">
                 <table id="customers">
-                  <tr>
+                  <tr className="table-customer-header">
                     <th>S.No.</th>
                     <th>Product Name</th>
                     <th className="innerMEG">
@@ -453,27 +453,27 @@ const Entry = () => {
                     <th>Amt</th>
                   </tr>
 
-                  <tr>
+                  <tr className="table-customer-value">
                     <td>
                       <input type="text" value={"1"} />
                     </td>
                     <td>
-                      <select
-                        htmlFor="firmName"
-                        onChange={generateData}
-                        className="ProductName"
-                      >
-                        Product Name
-                        <br />
-                        {productData.map((item, index) => (
-                          <option
-                            placeholder="First Name"
-                            onChange={(e) => setGeneratedData(e.target.value)}
+                          <select
+                            htmlFor="firmName"
+                            onChange={generateData}
+                            className="ProductName"
                           >
-                            {item.productName}
-                          </option>
-                        ))}
-                      </select>
+                            Product Name
+                            <br />
+                            {productData.map((item, index) => (
+                              <option
+                                placeholder="First Name"
+                                onChange={(e) => setGeneratedData(e.target.value)}
+                              >
+                                {item.productName}
+                              </option>
+                            ))}
+                          </select>
                     </td>
                     <td className="checkbox-td">
                       <div
@@ -509,6 +509,7 @@ const Entry = () => {
                         onClick={handleChangeG}
                       />
                     </td>
+
                     <td>
                       <input
                         type="text"
@@ -516,6 +517,7 @@ const Entry = () => {
                         onChange={(e) => setUnitPack(e.target.value)}
                       />
                     </td>
+
                     <td>
                       <input
                         type="text"
@@ -526,6 +528,7 @@ const Entry = () => {
                         }}
                       />
                     </td>
+
                     <td>
                       <input
                         type="text"
@@ -564,7 +567,7 @@ const Entry = () => {
 
                   {ProductEntries.map(function (item, index) {
                     return (
-                      <tr>
+                      <tr className="table-backend-value">
               
                         <td>{index + 1}</td>
                         <td>{item.ProductName}</td>

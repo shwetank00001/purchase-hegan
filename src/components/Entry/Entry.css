@@ -180,7 +180,7 @@ body {
   .qty-details{
     height: 192px;
     width: 40%;
-    padding: 10px;
+    margin: 12px;
     overflow: auto;
   }
   
@@ -232,6 +232,7 @@ body {
     margin-left: 10px;
     padding: 10px;
   }
+
   
   .total-empty-buttons{
     display: flex;
@@ -264,7 +265,6 @@ body {
     margin-top: .2rem;
     background-color: #0A9AE3;
     color: white;
-    font-size: large;
     border: 3px solid #000000;
     border-radius: 10px;
   
@@ -298,7 +298,6 @@ body {
     border-collapse: collapse;
     width: 100%;
     overflow: auto;
-  
   }
   
   #customers td, #customers th {
@@ -319,8 +318,6 @@ body {
   #customers tr:hover {background-color: #d9d9d9;}
   
   #customers th {
-    padding-top: 12px;
-    padding-bottom: 12px;
     text-align: center;
     background-color: #0A9AE3;
     color: white;
@@ -329,16 +326,33 @@ body {
   #customers tr > td {
     text-align: center;
     cursor: pointer;
+    font-size: large;
     
   }
+
+  .table-customer-header > th{
+    position: sticky;
+    top: 0;
+  }
+  .qty-detail-header > th{
+    position: sticky;
+    top: 0;
+  }
+  .table-customer-value{
+    /* position: sticky;
+    top: 6rem;
+    z-index: 5; */
+    font-size: large;
+
+    }
+
+
 
   .checkbox-td {
     display: flex;  
     margin-left: -2rem;
   }
-.checkbox-1{
-  
-}
+
 
 .checkbox-2{
   margin-left: -3rem;
